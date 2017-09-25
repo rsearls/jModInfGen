@@ -43,7 +43,7 @@ moditect and jModInfGen differ in the following ways,
       in the creation of the moditect pom settings.
       
 
-References:
+References
 -[1] https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jdeps.html
 -[2] http://openjdk.java.net/projects/jigsaw/spec/sotms/
 -[3] https://maven.apache.org/plugins/maven-jdeps-plugin/
