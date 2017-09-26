@@ -1,0 +1,81 @@
+<project name="module-info scanner" default="build">
+
+  <property name="outputDir" value="${basedir}/target/classes" />
+  <property name="sourceDir" value="${basedir}/src/main/java" />
+  <property name="libDir"    value="${basedir}/lib"/>
+  <property name="generatedSourcesDir" value="${basedir}/target/generated-sources" />
+  <property environment="env"/>
+
+  <taskdef classname="jflex.anttask.JFlexTask" name="jflex" classpath="${libDir}/jflex-1.6.1.jar"/>
+  <taskdef classname="java_cup.anttask.CUPTask" name="cup" classpath="${libDir}/java-cup-11a.jar"/>
+
+  <target name="build" depends="clean,compile,addLibs" />
+
+  <target name="test" depends="build">
+    <java classname="org.jboss.module.info.Main"
+          classpath=".:${outputDir}"
+          classpathref="libraries">
+      <arg line="${basedir}/src/main/resources/ModuleStmtTest.txt"/>
+    </java>
+  </target>
+
+  <path id="libraries">
+    <fileset dir="${libDir}">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${outputDir}">
+      <include name="**/*.class"/>
+    </fileset>
+  </path>
+
+  <target name="compile" depends="generateSources">
+    <mkdir dir="${outputDir}"/>
+    <javac srcdir="${sourceDir}/org/jboss/module/info/util"
+           destdir="${outputDir}"
+           classpathref="libraries"
+           debug="true"
+           includeantruntime="false"
+           executable="${env.JAVA_HOME}/bin/javac" fork="yes"/>
+    <javac srcdir="${generatedSourcesDir}"
+           destdir="${outputDir}"
+           classpathref="libraries"
+           debug="true"
+           includeantruntime="false"
+           executable="${env.JAVA_HOME}/bin/javac" fork="yes"/>
+    <javac srcdir="${sourceDir}/org/jboss/module/info/directives"
+           destdir="${outputDir}"
+           classpathref="libraries"
+           debug="true"
+           includeantruntime="false"
+           executable="${env.JAVA_HOME}/bin/javac" fork="yes"/>
+    <javac srcdir="${sourceDir}/org/jboss/module/info"
+           destdir="${outputDir}"
+           classpathref="libraries"
+           debug="true"
+           includeantruntime="false"
+           executable="${env.JAVA_HOME}/bin/javac" fork="yes"/>
+  </target>
+
+  <target name="generateSources" depends="scanner,cup"/>
+  <target name="scanner">
+    <mkdir dir="${generatedSourcesDir}" />
+    <jflex file="${sourceDir}/org/jboss/parser/rules/java.flex"
+           outdir="${generatedSourcesDir}"/>
+  </target>
+
+  <target name="cup">
+    <mkdir dir="${generatedSourcesDir}" />
+    <cup srcfile="${sourceDir}/org/jboss/parser/rules/java12.cup" interface="yes"
+         destdir="${generatedSourcesDir}"/>
+  </target>
+
+  <target name="addLibs">
+    <mkdir dir="${outputDir}/lib"/>
+    <copy file="${libDir}/java-cup-11a.jar" todir="${outputDir}/lib"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${basedir}/target" />
+  </target>
+
+</project>
