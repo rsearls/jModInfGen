@@ -30,7 +30,6 @@
       <dependency>
          <groupId>com.beust</groupId>
          <artifactId>jcommander</artifactId>
-         <version>1.60</version>
       </dependency>
    </dependencies>
 
@@ -48,7 +47,7 @@
                   <configuration>
                      <target>
                         <ant antfile="${basedir}/build.xml">
-                           <target name="build" />
+                           <target name="generateSym" />
                         </ant>
                      </target>
                   </configuration>
@@ -61,19 +60,6 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>default-compile</id>
-                  <phase>compile</phase>
-                  <goals>
-                     <goal>compile</goal>
-                  </goals>
-                  <configuration>
-                     <!-- compilation is performed in the ant task above -->
-                     <skipMain>true</skipMain>
-                  </configuration>
-               </execution>
-            </executions>
          </plugin>
          <plugin>
             <artifactId>maven-jar-plugin</artifactId>

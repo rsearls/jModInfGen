@@ -1,6 +1,8 @@
 package org.jboss.module.info;
 
 import org.jboss.module.info.directives.ModuleInfoDeclaration;
+import org.jboss.module.info.ui.ArgumentValidator;
+import org.jboss.module.info.ui.ArgumentException;
 
 import java.io.File;
 
@@ -9,19 +11,17 @@ import java.io.File;
  */
 public class Main {
 
-   private static boolean debug_flag = false;
-   private static final String HELP_MSG =
-           "A relative or absolute path to a module-info formated file is required.";
+   public static void main(String args[]) {
 
-   public static void main(String argv[]) {
-   /**
-      final String dir = System.getProperty("user.dir");
-      System.out.println("current dir = " + dir);
-      **/
+      try {
+         ArgumentValidator.validate(args);
 
-      Main main = new Main();
-      // todo check input for -debug flag
-      main.processInput(main.inputCheck(argv[0]));
+         Main main = new Main();
+         main.processInput(new File(args[0]));
+      } catch (ArgumentException e) {
+         System.out.println(e);
+         System.exit(1);
+      }
 
    }
 
@@ -30,7 +30,6 @@ public class Main {
 
       try {
          ModuleInfoDeclaration mInfoDecl = new ModuleInfoDeclaration();
-         //mInfoDecl.setDebug(debug_flag);
          mInfoDecl.parse(file);
          mInfoDecl.print();
       }
@@ -39,28 +38,4 @@ public class Main {
          System.exit(1);
       }
    }
-
-   public File inputCheck(String fileName) {
-      if (fileName == null || fileName.isEmpty()) {
-         System.out.println("The name of the input file is missing.");
-         System.out.println(HELP_MSG);
-         System.exit(1);
-      }
-
-      File f = new File(fileName);
-      if (!f.exists()) {
-         System.out.printf("File, %s was not found.", fileName);
-         System.out.println(HELP_MSG);
-         System.exit(1);
-      } else if (!f.isFile()) {
-         System.out.printf("%s is not a file.", fileName);
-         System.out.println(HELP_MSG);
-         System.exit(1);
-      } else if (!f.canRead()) {
-         System.out.printf("%s does not have read permission.", fileName);
-         System.exit(1);
-      }
-      return f;
-   }
-
 }

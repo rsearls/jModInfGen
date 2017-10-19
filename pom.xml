@@ -25,4 +25,13 @@
         <module>maven-plugin</module>
 -->
     </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.beust</groupId>
+                <artifactId>jcommander</artifactId>
+                <version>1.60</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

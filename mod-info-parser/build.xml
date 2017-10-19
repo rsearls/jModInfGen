@@ -19,6 +19,9 @@
     </java>
   </target>
 
+  <!-- todo fix build so archive com/beust:jcommander:1.60 can be referenced and
+       the jar file removed from lib
+  -->
   <path id="libraries">
     <fileset dir="${libDir}">
       <include name="**/*.jar"/>
@@ -49,6 +52,23 @@
            includeantruntime="false"
            fork="yes"/>
     <javac srcdir="${sourceDir}/org/jboss/module/info"
+           destdir="${outputDir}"
+           classpathref="libraries"
+           debug="true"
+           includeantruntime="false"
+           fork="yes"/>
+  </target>
+
+  <!-- limited build for use with maven -->
+  <target name="generateSym" depends="generateSources">
+    <mkdir dir="${outputDir}"/>
+    <javac srcdir="${sourceDir}/org/jboss/module/info/util"
+           destdir="${outputDir}"
+           classpathref="libraries"
+           debug="true"
+           includeantruntime="false"
+           fork="yes"/>
+    <javac srcdir="${generatedSourcesDir}"
            destdir="${outputDir}"
            classpathref="libraries"
            debug="true"
