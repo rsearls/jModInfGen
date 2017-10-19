@@ -35,25 +35,25 @@
            classpathref="libraries"
            debug="true"
            includeantruntime="false"
-           executable="${env.JAVA_HOME}/bin/javac" fork="yes"/>
+           fork="yes"/>
     <javac srcdir="${generatedSourcesDir}"
            destdir="${outputDir}"
            classpathref="libraries"
            debug="true"
            includeantruntime="false"
-           executable="${env.JAVA_HOME}/bin/javac" fork="yes"/>
+           fork="yes"/>
     <javac srcdir="${sourceDir}/org/jboss/module/info/directives"
            destdir="${outputDir}"
            classpathref="libraries"
            debug="true"
            includeantruntime="false"
-           executable="${env.JAVA_HOME}/bin/javac" fork="yes"/>
+           fork="yes"/>
     <javac srcdir="${sourceDir}/org/jboss/module/info"
            destdir="${outputDir}"
            classpathref="libraries"
            debug="true"
            includeantruntime="false"
-           executable="${env.JAVA_HOME}/bin/javac" fork="yes"/>
+           fork="yes"/>
   </target>
 
   <target name="generateSources" depends="scanner,cup"/>

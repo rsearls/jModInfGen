@@ -19,9 +19,9 @@
     </properties>
 
     <modules>
-        <module>parser</module>
-<!--
+        <module>mod-info-parser</module>
         <module>analyzer</module>
+<!--
         <module>maven-plugin</module>
 -->
     </modules>

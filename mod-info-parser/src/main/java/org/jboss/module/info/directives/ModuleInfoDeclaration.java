@@ -2,8 +2,10 @@ package org.jboss.module.info.directives;
 
 import java.io.FileReader;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.Map;
 
 import java_cup.runtime.Symbol;
 import org.jboss.parser.rules.Scanner;
@@ -19,11 +21,11 @@ import org.jboss.parser.rules.sym;
 public class ModuleInfoDeclaration extends ModuleDirective {
 
    private boolean isDebug = false;
-   private TreeMap<String, ModuleDirective> exportsMap = new TreeMap<>();
-   private TreeMap<String, ModuleDirective> requirsMap = new TreeMap<>();
-   private TreeMap<String, ModuleDirective> opensMap = new TreeMap<>();
-   private TreeMap<String, ModuleDirective> usesMap = new TreeMap<>();
-   private TreeMap<String, ModuleDirective> providesMap = new TreeMap<>();
+   private LinkedHashMap<String, ModuleDirective> exportsMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, ModuleDirective> requirsMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, ModuleDirective> opensMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, ModuleDirective> usesMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, ModuleDirective> providesMap = new LinkedHashMap<>();
 
    public void parse (File file) {
       try {
@@ -31,7 +33,7 @@ public class ModuleInfoDeclaration extends ModuleDirective {
          Scanner scanner = new Scanner(new FileReader(file));
 
          ModuleDirective mDirective = null;
-         TreeMap<String, ModuleDirective> curTreeMap = null;
+         LinkedHashMap<String, ModuleDirective> curTreeMap = null;
          Symbol s;
          do {
             //s = scanner.debug_next_token();
@@ -123,6 +125,20 @@ public class ModuleInfoDeclaration extends ModuleDirective {
 
    public void setDebug(boolean flag) {
       this.isDebug = flag;
+   }
+
+   /*
+    * Only provide package names globally available and not restricted to a
+    * declared set of components
+    */
+   public List<String> getExportPkgNames() {
+      List<String> results = new ArrayList<>();
+      for (Map.Entry<String, ModuleDirective> entry : exportsMap.entrySet()) {
+         if ( !((ExportsDirective)entry.getValue()).isTo()) {
+            results.add(entry.getKey());
+         }
+      }
+      return results;
    }
 
    @Override

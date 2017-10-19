@@ -8,7 +8,7 @@ The utility uses the JFlex lexical analyzer (http://jflex.de/) and LALR Parser G
 Two Jar archives are produced.
     - Archive module-info-directives-util-1.0.jar is the traditional reference archive.
     - Archive module-info-directives-util-1.0.one-jar.jar is an executable Jar that
-            allows you to use Main.  It can be run with the following cmd.
+            allows the user to use Main.  It can be run with the following cmd.
                 java -jar module-info-directives-util-1.0.one-jar.jar <INPUT_FILE>
                 example
                     java -jar target/module-info-directives-util-1.0.one-jar.jar src/main/resources/ModuleStmtTest.txt

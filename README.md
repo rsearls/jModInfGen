@@ -12,10 +12,23 @@ This tool does not require JDK 9 in order to run.  It is built with JDK 8 and
 will run in JDK 8. 
 
 It is likely this tool will not be able to identify all the module names of all the
-packages reported by jdeps.  jModInfGen makes the best effort and flags, unknown 
+packages reported by jdeps.  jModInfGen makes the best effort and flags unknown
 packages in comments for the user to address.
 
-  
+Project module, mod-info-parser uses lexical analyzer JFlex and LALR Parser Generator for Java
+java_cup in extracting data from each module-info.java file.  This tool does not process
+module-info.class files as this would require JDK9.
+
+Project module, analyzer processes the data written to classes.dot by utility jdeps and
+the module-info.java file that can be found in the directory path.  When this tool is run
+on a maven project, each module is analyzed.  An attempt is made to reference inter-projects
+modules.
+
+The analyzer writes a module-info.java file which is a merge of data extracted from an
+existing module-info.java file found in the project and module data found in the project
+source code.  This file is written to the directory in which the classes.dot file resides.
+
+
 
 Currently there are 2 other known 3rd party projects related to addressing 
 JSR 376: "The Java Platform Module System" in Project Jigsaw[2], 

@@ -49,6 +49,8 @@ TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 EndOfLineComment = "//" {InputCharacter}* {LineTerminator}?
 DocumentationComment = "/*" "*"+ [^/*] ~"*/"
 
+AnnotationSign = "@" {InputCharacter}* {LineTerminator}?
+
 /* identifiers */
 Identifier = ([:jletter:][:jletterdigit:]*\.)*[:jletter:][:jletterdigit:]*
 
@@ -93,6 +95,8 @@ SingleCharacter = [^\r\n\'\\]
 
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }
+
+  {AnnotationSign}               { /* ignore */ }
 
   /* identifiers */
   {Identifier}                   { return symbol(IDENTIFIER, yytext()); }

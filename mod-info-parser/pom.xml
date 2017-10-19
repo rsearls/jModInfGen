@@ -10,9 +10,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-   <artifactId>jModInfGen-parser</artifactId>
+   <artifactId>mod-info-parser</artifactId>
    <packaging>jar</packaging>
-   <name>jModInfGen-parser</name>
+   <name>mod-info-parser</name>
 
    <properties>
       <maven.compiler.source>1.8</maven.compiler.source>
@@ -27,11 +27,17 @@
          <scope>system</scope>
          <systemPath>${basedir}/lib/java-cup-11a.jar</systemPath>
       </dependency>
+      <dependency>
+         <groupId>com.beust</groupId>
+         <artifactId>jcommander</artifactId>
+         <version>1.60</version>
+      </dependency>
    </dependencies>
 
    <build>
       <plugins>
          <plugin>
+            <!-- ant is required in order to build the jflex rules -->
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
             <version>1.8</version>

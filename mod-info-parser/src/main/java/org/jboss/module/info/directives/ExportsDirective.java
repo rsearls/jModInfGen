@@ -60,6 +60,10 @@ public class ExportsDirective extends ModuleDirective {
       return moduleNameList;
    }
 
+   public boolean isTo() {
+      return this.isTO;
+   }
+
    @Override
    public void print() {
       StringBuilder sbuf = new StringBuilder();

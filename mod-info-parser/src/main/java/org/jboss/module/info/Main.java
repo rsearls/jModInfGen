@@ -14,9 +14,15 @@ public class Main {
            "A relative or absolute path to a module-info formated file is required.";
 
    public static void main(String argv[]) {
-      Main jp = new Main();
+   /**
+      final String dir = System.getProperty("user.dir");
+      System.out.println("current dir = " + dir);
+      **/
+
+      Main main = new Main();
       // todo check input for -debug flag
-      jp.processInput(jp.inputCheck(argv[0]));
+      main.processInput(main.inputCheck(argv[0]));
+
    }
 
 
