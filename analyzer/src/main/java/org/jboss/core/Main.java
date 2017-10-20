@@ -1,16 +1,19 @@
 package org.jboss.core;
 
+import com.beust.jcommander.JCommander;
 import org.jboss.core.model.DotFileModel;
 import org.jboss.core.model.ModuleModel;
 import org.jboss.core.model.ServicesModel;
 import org.jboss.core.parser.DotFileParser;
 import org.jboss.core.parser.ServiceFileParser;
+import org.jboss.core.ui.CmdLineArgs;
 import org.jboss.core.util.DumpIt;
 import org.jboss.core.util.FileFinderUtil;
 import org.jboss.core.util.Analyzer;
 import org.jboss.core.writer.ModuleInfoWriter;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,20 +22,20 @@ import java.util.List;
  */
 public class Main
 {
-   public static void main(String[] args) {
-      String arg = "";
-      arg = "/home/rsearls/j1/Resteasy/resteasy-jaxrs/dot/resteasy-jaxrs-3.0.23.Final-SNAPSHOT.jar.dot";
-      arg = "/home/rsearls/j1/Resteasy";
+   public static void main(String[] args) throws Exception {
+
+      CmdLineArgs cmdLineArgs = new CmdLineArgs();
+      new JCommander( cmdLineArgs, args );
+
+      File inDir = cmdLineArgs.getInputdirectory().toFile();
+      //String arg = "";
+      //arg = "/home/rsearls/j1/Resteasy/resteasy-jaxrs/dot/resteasy-jaxrs-3.0.23.Final-SNAPSHOT.jar.dot";
+      //arg = "/home/rsearls/j1/Resteasy";
 
       // test only //Depository.testPropertiesFileRead();
 
-      if (arg == null || arg.length() == 0) {
-         System.out.println ("Absolute path to root dir required.");
-         System.exit(1);
-      }
-
       FileFinderUtil ffUtil = new FileFinderUtil();
-      List<File> rawModules = ffUtil.getModuleList(new File(arg));
+      List<File> rawModules = ffUtil.getModuleList(inDir);
       List<ModuleModel> mModelList = new ArrayList<>();
       for(File file : rawModules) {
          ModuleModel mm = new ModuleModel();
