@@ -22,7 +22,7 @@ public class ModuleInfoDeclaration extends ModuleDirective {
 
    private boolean isDebug = false;
    private LinkedHashMap<String, ModuleDirective> exportsMap = new LinkedHashMap<>();
-   private LinkedHashMap<String, ModuleDirective> requirsMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, ModuleDirective> requiresMap = new LinkedHashMap<>();
    private LinkedHashMap<String, ModuleDirective> opensMap = new LinkedHashMap<>();
    private LinkedHashMap<String, ModuleDirective> usesMap = new LinkedHashMap<>();
    private LinkedHashMap<String, ModuleDirective> providesMap = new LinkedHashMap<>();
@@ -48,7 +48,7 @@ public class ModuleInfoDeclaration extends ModuleDirective {
                case sym.REQUIRES:
                {
                   mDirective = new RequiresDirective();
-                  curTreeMap = requirsMap;
+                  curTreeMap = requiresMap;
                   break;
                }
                case sym.EXPORTS:
@@ -123,6 +123,20 @@ public class ModuleInfoDeclaration extends ModuleDirective {
       return null;
    }
 
+   public LinkedHashMap<String, ModuleDirective> getExportsMap() {
+     return this.exportsMap;
+   }
+
+
+   public LinkedHashMap<String, ModuleDirective> getRequiresMap() {
+      return this.requiresMap;
+   }
+
+   public LinkedHashMap<String, ModuleDirective> getProvidesMap() {
+      return this.providesMap;
+   }
+
+
    public void setDebug(boolean flag) {
       this.isDebug = flag;
    }
@@ -150,7 +164,7 @@ public class ModuleInfoDeclaration extends ModuleDirective {
          m.print();
       }
 
-      for (ModuleDirective m: requirsMap.values()) {
+      for (ModuleDirective m: requiresMap.values()) {
          m.print();
       }
 

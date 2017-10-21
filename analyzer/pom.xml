@@ -32,6 +32,16 @@
    </dependencies>
 
    <build>
+
+      <resources>
+         <resource>
+            <directory>src/main/java/org/jboss/core</directory>
+            <includes>
+               <include>DepositoryData.properties</include>
+            </includes>
+         </resource>
+      </resources>
+
       <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>

@@ -30,9 +30,25 @@ public class DotFileModel {
    private TreeMap<String,TreeSet<String>> requiredModuleNames = new TreeMap<String,TreeSet<String>>();
 
    private File dotFile = null;
-   //private String moduleName = "module."+ (new Date()).getTime();
    private File moduleDir = null;
+   private String moduleName = null;
 
+
+   public void setModuleName(String moduleName) {
+      this.moduleName = moduleName;
+   }
+
+   public String getModuleName() {
+
+      if (moduleName == null) {
+         if (moduleDir == null) {
+            moduleName = "module-name-unknown";
+         } else {
+            moduleName = moduleDir.getName();
+         }
+      }
+      return moduleName;
+   }
 
    public File getModuleDir() {
       return moduleDir;
@@ -40,13 +56,6 @@ public class DotFileModel {
 
    public void setModuleDir(File moduleDir) {
       this.moduleDir = moduleDir;
-   }
-
-   public String getModuleName() {
-      if (moduleDir == null) {
-         return "module name unknown";
-      }
-      return moduleDir.getName();
    }
 
    public TreeMap<String, TreeSet<String>> getInternalPackages() {
@@ -99,28 +108,28 @@ public class DotFileModel {
    /**
     * Register external modules that reference this package.
     * @param key
-    * @param moduleName
+    * @param modName
     */
-   public boolean registerInternalPackageDependency (String key, String moduleName) {
+   public boolean registerInternalPackageDependency (String key, String modName) {
       boolean isSet = false;
 
       if (internalPackages.containsKey(key)) {
          TreeSet<String> valueSet = internalPackages.get(key);
-         valueSet.add(moduleName);
+         valueSet.add(modName);
          isSet = true;
       }
       return isSet;
    }
 
 
-   public void registerExternalPackageDependency(String key, String moduleName) {
+   public void registerExternalPackageDependency(String key, String modName) {
 
       if (externalPackages.containsKey(key)) {
          TreeSet<String> values = externalPackages.get(key);
-         values.add(moduleName);
+         values.add(modName);
       } else {
          TreeSet<String> values = new TreeSet<>();
-         values.add(moduleName);
+         values.add(modName);
          externalPackages.put(key, values);
       }
 

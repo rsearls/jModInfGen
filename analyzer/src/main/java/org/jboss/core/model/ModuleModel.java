@@ -1,5 +1,8 @@
 package org.jboss.core.model;
 
+import org.jboss.core.util.Unification;
+import org.jboss.module.info.directives.ModuleInfoDeclaration;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +19,8 @@ public class ModuleModel {
 
    private DotFileModel dotFileModel;
    private ServicesModel servicesModel;
-   private ModuleInfoModel moduleInfoModel;
+   private ModuleInfoDeclaration moduleInfoModel;
+   private Unification unification;
 
    public DotFileModel getDotFileModel() {
       return dotFileModel;
@@ -34,11 +38,11 @@ public class ModuleModel {
       this.servicesModel = servicesModel;
    }
 
-   public ModuleInfoModel getModuleInfoModel() {
+   public ModuleInfoDeclaration getModuleInfoModel() {
       return moduleInfoModel;
    }
 
-   public void setModuleInfoModel(ModuleInfoModel moduleInfoModel) {
+   public void setModuleInfoModel(ModuleInfoDeclaration moduleInfoModel) {
       this.moduleInfoModel = moduleInfoModel;
    }
 
@@ -73,4 +77,13 @@ public class ModuleModel {
    public void setModuleInfoFile(File moduleInfoFile) {
       this.moduleInfoFile = moduleInfoFile;
    }
+
+   public Unification getUnification() {
+      return unification;
+   }
+
+   public void setUnification(Unification unification) {
+      this.unification = unification;
+   }
+
 }

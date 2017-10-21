@@ -10,6 +10,7 @@ import java.util.List;
 public class ServicesModel {
 
    private List<String> servicesList = new ArrayList<>();
+   private File serviceFile;
 
    public List<String> getServicesList() {
       return servicesList;
@@ -27,5 +28,10 @@ public class ServicesModel {
       this.serviceFile = serviceFile;
    }
 
-   private File serviceFile;
+   public String getServiceFileName() {
+      if(serviceFile == null) {
+         return "no services";
+      }
+      return serviceFile.getName();
+   }
 }

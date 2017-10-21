@@ -44,7 +44,7 @@ public class Analyzer
 
    private void analyzeExternalPackages(DotFileModel dFile, List<DotFileModel> dotFileList) {
 
-      TreeSet<String> extPackages = checkJDKPackages(dFile);
+      TreeSet<String> extPackages = checkDepository(dFile);
       TreeSet<String> resolvedPackages = new TreeSet<>();
 
       if (!extPackages.isEmpty()) {
@@ -64,9 +64,21 @@ public class Analyzer
          }
 
          cleanupResolvedPackages(extPackages, resolvedPackages, dFile);
+         depositoryRegistation(dFile);
       }
    }
 
+
+   /**
+    * Register the modules internal packages and module name in the depository
+    * @param dFile
+    */
+   private void depositoryRegistation(DotFileModel dFile) {
+      String moduleName = dFile.getModuleName();
+      for (String pkgName : dFile.getInternalPackages().keySet()) {
+         Depository.register(pkgName, moduleName);
+      }
+   }
 
    /**
     * Resolve JDK package module mappings.  Remove successfully identified
@@ -75,7 +87,7 @@ public class Analyzer
     * @param dFile
     * @return
     */
-   private TreeSet<String> checkJDKPackages (DotFileModel dFile) {
+   private TreeSet<String> checkDepository (DotFileModel dFile) {
 
       TreeSet<String> extPackages = new TreeSet<>();
       extPackages.addAll(dFile.getExternalPackages().keySet());

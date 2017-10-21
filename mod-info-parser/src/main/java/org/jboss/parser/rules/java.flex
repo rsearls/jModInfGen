@@ -52,8 +52,7 @@ DocumentationComment = "/*" "*"+ [^/*] ~"*/"
 AnnotationSign = "@" {InputCharacter}* {LineTerminator}?
 
 /* identifiers */
-Identifier = ([:jletter:][:jletterdigit:]*\.)*[:jletter:][:jletterdigit:]*
-
+Identifier = ([:jletter:][:jletterdigit:]*\.? | \-?)*[:jletter:][:jletterdigit:]*
 
 /* string and character literals */
 StringCharacter = [^\r\n\"\\]

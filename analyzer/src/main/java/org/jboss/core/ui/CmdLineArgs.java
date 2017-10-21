@@ -18,7 +18,7 @@ public class CmdLineArgs {
    )
    private Path inputDirectory;
 
-   public Path getInputdirectory() {
+   public Path getInputDirectory() {
 
       if (inputDirectory == null) {
          final String dir = System.getProperty("user.dir");

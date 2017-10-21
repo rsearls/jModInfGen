@@ -7,14 +7,18 @@ import org.jboss.core.model.ServicesModel;
 import org.jboss.core.parser.DotFileParser;
 import org.jboss.core.parser.ServiceFileParser;
 import org.jboss.core.ui.CmdLineArgs;
+import org.jboss.core.util.Depository;
 import org.jboss.core.util.DumpIt;
 import org.jboss.core.util.FileFinderUtil;
 import org.jboss.core.util.Analyzer;
+import org.jboss.core.util.Unification;
 import org.jboss.core.writer.ModuleInfoWriter;
+import org.jboss.module.info.directives.ModuleInfoDeclaration;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -27,12 +31,9 @@ public class Main
       CmdLineArgs cmdLineArgs = new CmdLineArgs();
       new JCommander( cmdLineArgs, args );
 
-      File inDir = cmdLineArgs.getInputdirectory().toFile();
-      //String arg = "";
-      //arg = "/home/rsearls/j1/Resteasy/resteasy-jaxrs/dot/resteasy-jaxrs-3.0.23.Final-SNAPSHOT.jar.dot";
-      //arg = "/home/rsearls/j1/Resteasy";
+      File inDir = cmdLineArgs.getInputDirectory().toFile();
 
-      // test only //Depository.testPropertiesFileRead();
+      // test only // Depository d = new Depository();
 
       FileFinderUtil ffUtil = new FileFinderUtil();
       List<File> rawModules = ffUtil.getModuleList(inDir);
@@ -53,8 +54,7 @@ public class Main
       for (ModuleModel mm : mModelList) {
          File f = mm.getDotFile();
          DotFileModel dotFileModel = dotParser.parse(f);
-         if (dotFileModel != null)
-         {
+         if (dotFileModel != null) {
             dotFileModel.setModuleDir(mm.getRootDir());
          }
          mm.setDotFileModel(dotFileModel);
@@ -63,23 +63,40 @@ public class Main
             ServicesModel sModel = serviceFileParser.parse(sFile);
             mm.setServicesModel(sModel);
          }
+
+         if (mm.getModuleInfoFile() != null) {
+            ModuleInfoDeclaration mInfoDecl = new ModuleInfoDeclaration();
+            mInfoDecl.parse(mm.getModuleInfoFile());
+            mm.setModuleInfoModel(mInfoDecl);
+
+            if (dotFileModel != null) {
+               dotFileModel.setModuleName(mInfoDecl.getName());
+            }
+         }
       }
 
       Analyzer analyzer = new Analyzer(mModelList);
       analyzer.analyze();
-      analyzer.duplicatePackageNameCheck();
+      analyzer.duplicatePackageNameCheck();  // todo this may be obsolete.
 
-
+/***
       ModuleInfoWriter writer = new ModuleInfoWriter();
       for(ModuleModel mModel: mModelList) {
          if (mModel.getDotFileModel() != null) {
             writer.writeFile(mModel);
          }
       }
+***/
+      for(ModuleModel mModel: mModelList) {
+         Unification unification = new Unification(mModel);
+         unification.process();
+         mModel.setUnification(unification);
+      }
 
       //todo add existing module-info file parse
       //todo compare/merge data
       //todo print tmp file.
+
    }
 
 }
