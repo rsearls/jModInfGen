@@ -29,6 +29,9 @@ public class ServiceFileParser
                }
             }
 
+            if (!servicesList.isEmpty()) {
+               servicesModel.setIsWith(true);
+            }
          } catch (FileNotFoundException e) {
             System.out.println(e);
          }

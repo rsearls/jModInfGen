@@ -27,7 +27,6 @@ public class Unification {
    private List<String> unresolveRequiresPackageNamesList = new ArrayList<>();
 
    private final ModuleModel mModel;
-   private final Depository depository = new Depository();
 
    public Unification(ModuleModel mModel) {
       this.mModel = mModel;
@@ -42,7 +41,6 @@ public class Unification {
       processProvides(mInfoDecl, mModel.getServicesModel());
    }
 
-   // todo how to flag new ref and removed references ENUM??
    private void processExports(ModuleInfoDeclaration mInfoDecl, DotFileModel dFileModel) {
       String moduleName = null;
 
@@ -97,21 +95,20 @@ public class Unification {
          // check dotFileModel requires against the module-info export list
          for (Map.Entry<String, TreeSet<String>> entry : dFileModel.getRequiredModuleNames().entrySet())
          {
-            String pkgName = entry.getKey();
-            String moduleName = depository.getModuleName(pkgName);
-            if (moduleName == null)
+            String moduleName = entry.getKey();
+            if (!moduleKeys.contains(moduleName))
             {
-               unresolveRequiresPackageNamesList.add(pkgName);
-            } else
-            {
-               if (!moduleKeys.contains(moduleName))
+               RequiresDirective eDirective = new RequiresDirective();
+               eDirective.setName(moduleName);
+               if (entry.getValue() != null)
                {
-                  RequiresDirective eDirective = new RequiresDirective();
-                  eDirective.setName(pkgName);
-                  requiresMap.put(pkgName, eDirective);
+                  eDirective.getModuleNameList().addAll(entry.getValue());
                }
+               requiresMap.put(moduleName, eDirective);
             }
          }
+
+         unresolveRequiresPackageNamesList.addAll(dFileModel.getExpPackages());
       }
    }
 
@@ -135,26 +132,14 @@ public class Unification {
          String serviceFileName = servicesModel.getServiceFileName();
          if (!moduleKeys.contains(serviceFileName))
          {
-            ProvidesDirective providesDirective = new ProvidesDirective();
-            providesMap.put(serviceFileName, providesDirective);
-            providesDirective.setName(serviceFileName);
-
-            for (String p : servicesModel.getServicesList())
-            {
-               providesDirective.getModuleNameList().add(p);
-            }
-
-            if (!servicesModel.getServicesList().isEmpty()) {
-               providesDirective.setIsWith(true);
-            }
-         } else {
+            providesMap.put(serviceFileName, servicesModel);
+         } else
+         {
             ProvidesDirective providesDirective = providesMap.get(serviceFileName);
-            if (providesDirective != null) {
+            if (providesDirective != null)
+            {
                providesDirective.getModuleNameList().clear();
-               for (String p : servicesModel.getServicesList())
-               {
-                  providesDirective.getModuleNameList().add(p);
-               }
+               providesDirective.getModuleNameList().addAll(servicesModel.getServicesList());
             }
          }
       }
@@ -164,44 +149,59 @@ public class Unification {
    public void print() {
 
       String moduleName = null;
-      if (mModel.getModuleInfoModel() != null) {
+      if (mModel.getModuleInfoModel() != null)
+      {
          moduleName = mModel.getModuleInfoModel().getName();
-      } else  if (mModel.getDotFileModel() != null) {
+      } else if (mModel.getDotFileModel() != null)
+      {
          moduleName = mModel.getDotFileModel().getModuleName();
       }
-      if (moduleName == null) {
+      if (moduleName == null)
+      {
          moduleName = mModel.getRootDir().getName();
       }
-      if (moduleName == null) {
+      if (moduleName == null)
+      {
          moduleName = "unknown-Module-Name";
       }
 
-      System.out.printf("MODULE %s {\n",moduleName);
+      System.out.println("\n----");
+      System.out.printf("MODULE %s {\n", moduleName);
 
-      for (ModuleDirective m: exportsMap.values()) {
+      System.out.println();
+      for (ModuleDirective m : exportsMap.values())
+      {
          m.print();
       }
 
-      for (ModuleDirective m: requiresMap.values()) {
+      System.out.println();
+      for (RequiresDirective m : requiresMap.values())
+      {
          m.print();
+         m.printReferencedPackagesComment();
       }
 
+      System.out.println();
       printUnrsolvedRequiredPackages();
 
       if (mModel.getModuleInfoModel() != null)
       {
+         System.out.println();
          for (ModuleDirective m : mModel.getModuleInfoModel().getOpensMap().values())
          {
             m.print();
          }
 
+         System.out.println();
          for (ModuleDirective m : mModel.getModuleInfoModel().getUsesMap().values())
          {
             m.print();
          }
       }
 
-      for (ModuleDirective m: providesMap.values()) {
+      System.out.println();
+      for (ModuleDirective m : providesMap.values())
+      {
          m.print();
       }
 

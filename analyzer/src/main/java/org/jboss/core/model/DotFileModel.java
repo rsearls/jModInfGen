@@ -1,7 +1,6 @@
 package org.jboss.core.model;
 
 import java.io.File;
-import java.util.Date;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -24,8 +23,8 @@ public class DotFileModel {
    // Packages this module requires
    private TreeMap<String,TreeSet<String>> externalPackages = new TreeMap<String,TreeSet<String>>();
 
-
-   private TreeSet<String> oldRequiredModuleNames = new TreeSet<>();
+   // external packages for which a moduleName has not been found but which are still needed.
+   private TreeSet<String> extPackages = new TreeSet<>();
 
    private TreeMap<String,TreeSet<String>> requiredModuleNames = new TreeMap<String,TreeSet<String>>();
 
@@ -50,10 +49,6 @@ public class DotFileModel {
       return moduleName;
    }
 
-   public File getModuleDir() {
-      return moduleDir;
-   }
-
    public void setModuleDir(File moduleDir) {
       this.moduleDir = moduleDir;
    }
@@ -62,36 +57,20 @@ public class DotFileModel {
       return internalPackages;
    }
 
-   public void setInternalPackages(TreeMap<String, TreeSet<String>> internalPackages) {
-      this.internalPackages = internalPackages;
-   }
-
    public TreeMap<String, TreeSet<String>> getExternalPackages() {
       return externalPackages;
    }
 
-   public void setExternalPackages(TreeMap<String, TreeSet<String>> externalPackages) {
-      this.externalPackages = externalPackages;
+   public void setExtPackages(TreeSet<String> extPackages) {
+      this.extPackages.addAll(extPackages);
    }
 
-   public TreeSet<String> getOldRequiredModuleNames() {
-      return oldRequiredModuleNames;
-   }
-
-   public void setOldRequiredModuleNames(TreeSet<String> oldRequiredModuleNames) {
-      this.oldRequiredModuleNames = oldRequiredModuleNames;
+   public TreeSet<String> getExpPackages() {
+      return extPackages;
    }
 
    public TreeMap<String, TreeSet<String>> getRequiredModuleNames() {
       return requiredModuleNames;
-   }
-
-   public void setRequiredModuleNames(TreeMap<String, TreeSet<String>> requiredModuleNames) {
-      this.requiredModuleNames = requiredModuleNames;
-   }
-
-   public File getDotFile() {
-      return dotFile;
    }
 
    public void setDotFile(File dotFile) {
@@ -104,42 +83,6 @@ public class DotFileModel {
       return internalPackages.containsKey(s)? s : null ;
    }
 
-
-   /**
-    * Register external modules that reference this package.
-    * @param key
-    * @param modName
-    */
-   public boolean registerInternalPackageDependency (String key, String modName) {
-      boolean isSet = false;
-
-      if (internalPackages.containsKey(key)) {
-         TreeSet<String> valueSet = internalPackages.get(key);
-         valueSet.add(modName);
-         isSet = true;
-      }
-      return isSet;
-   }
-
-
-   public void registerExternalPackageDependency(String key, String modName) {
-
-      if (externalPackages.containsKey(key)) {
-         TreeSet<String> values = externalPackages.get(key);
-         values.add(modName);
-      } else {
-         TreeSet<String> values = new TreeSet<>();
-         values.add(modName);
-         externalPackages.put(key, values);
-      }
-
-   }
-
-
-   public void oldRegisterRequiredModuleName(String key) {
-      oldRequiredModuleNames.add(key);
-   }
-
    public void registerRequiredModuleName(String key, String pkgName) {
 
       TreeSet<String> values = requiredModuleNames.get(key);
@@ -150,11 +93,6 @@ public class DotFileModel {
       if (pkgName != null) {
          values.add(pkgName);
       }
-   }
-
-   // todo fix this
-   public TreeMap<String,TreeSet<String>> XgetRequiredModuleNames() {
-      return requiredModuleNames;
    }
 
 }

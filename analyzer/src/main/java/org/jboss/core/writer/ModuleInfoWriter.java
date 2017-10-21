@@ -70,7 +70,7 @@ public class ModuleInfoWriter
       }
 
       sb.append("\n");
-
+/***
       for (Map.Entry<String, TreeSet<String>> entry: dotFileModel.XgetRequiredModuleNames().entrySet()) {
          Set<String> values = entry.getValue();
          String key = entry.getKey();
@@ -84,7 +84,7 @@ public class ModuleInfoWriter
             }
          }
       }
-
+***/
       // List services provided
       ServicesModel servicesModel = mModel.getServicesModel();
       if (servicesModel != null) {
