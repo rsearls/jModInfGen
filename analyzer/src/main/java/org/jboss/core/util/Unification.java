@@ -39,7 +39,7 @@ public class Unification {
 
       processExports(mInfoDecl, dFileModel);
       processRequires(mInfoDecl, dFileModel);
-      //processProvides(mInfoDecl, mModel.getServicesModel());
+      processProvides(mInfoDecl, mModel.getServicesModel());
    }
 
    // todo how to flag new ref and removed references ENUM??
@@ -131,18 +131,32 @@ public class Unification {
       {
          HashSet<String> moduleKeys = new HashSet<>();
          moduleKeys.addAll(providesMap.keySet());
-         /***
-          // check dotFileModel exports against the module-info export list
-          for (Map.Entry<String, TreeSet<String>> entry : dFileModel.getRequiredModuleNames().entrySet())
-          {
-          if (!moduleKeys.contains(entry.getKey()))
-          {
 
-          } else {
-          System.out.format("providesMap contains %s\n", entry.getKey());
-          }
-          }
-          ***/
+         String serviceFileName = servicesModel.getServiceFileName();
+         if (!moduleKeys.contains(serviceFileName))
+         {
+            ProvidesDirective providesDirective = new ProvidesDirective();
+            providesMap.put(serviceFileName, providesDirective);
+            providesDirective.setName(serviceFileName);
+
+            for (String p : servicesModel.getServicesList())
+            {
+               providesDirective.getModuleNameList().add(p);
+            }
+
+            if (!servicesModel.getServicesList().isEmpty()) {
+               providesDirective.setIsWith(true);
+            }
+         } else {
+            ProvidesDirective providesDirective = providesMap.get(serviceFileName);
+            if (providesDirective != null) {
+               providesDirective.getModuleNameList().clear();
+               for (String p : servicesModel.getServicesList())
+               {
+                  providesDirective.getModuleNameList().add(p);
+               }
+            }
+         }
       }
    }
 

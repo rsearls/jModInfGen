@@ -16,7 +16,7 @@ import org.jboss.parser.rules.sym;
  */
 public class ProvidesDirective extends ExportsDirective {
 
-   protected boolean isWITH = false;    // flag that proposition "to" is active
+   protected boolean isWITH = false;    // flag that proposition "with" is active
 
    @Override
    public void process(Symbol s) {
@@ -43,6 +43,10 @@ public class ProvidesDirective extends ExportsDirective {
          }
       }
       return;
+   }
+
+   public void setIsWith(boolean flag) {
+      this.isWITH = flag;
    }
 
    @Override
