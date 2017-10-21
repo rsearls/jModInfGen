@@ -136,6 +136,13 @@ public class ModuleInfoDeclaration extends ModuleDirective {
       return this.providesMap;
    }
 
+   public LinkedHashMap<String, ModuleDirective> getOpensMap() {
+      return this.opensMap;
+   }
+
+   public LinkedHashMap<String, ModuleDirective> getUsesMap() {
+      return this.usesMap;
+   }
 
    public void setDebug(boolean flag) {
       this.isDebug = flag;

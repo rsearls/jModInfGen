@@ -91,6 +91,7 @@ public class Main
          Unification unification = new Unification(mModel);
          unification.process();
          mModel.setUnification(unification);
+         unification.print();
       }
 
       //todo add existing module-info file parse
