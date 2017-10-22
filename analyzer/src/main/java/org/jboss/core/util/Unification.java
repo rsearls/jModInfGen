@@ -189,7 +189,7 @@ public class Unification {
       StringBuilder sb = new StringBuilder();
       for (ModuleDirective m : providesMap.values())
       {
-         m.print();
+         sb.append(m.toString());
       }
       return sb.toString();
    }

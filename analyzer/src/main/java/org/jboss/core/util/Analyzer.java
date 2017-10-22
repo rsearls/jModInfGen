@@ -36,8 +36,6 @@ public class Analyzer
       for(DotFileModel dFile: dotModelList) {
          TreeSet<String> extPackages = checkDepository(dFile);
          dFile.setExtPackages(extPackages);
-         DumpIt.dumpExternalPackages(dFile.getModuleName(), dFile.getExternalPackages());
-         DumpIt.dumpInternalPackages(dFile.getModuleName(), dFile.getInternalPackages());
       }
    }
 

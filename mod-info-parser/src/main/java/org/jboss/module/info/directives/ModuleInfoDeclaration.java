@@ -29,7 +29,6 @@ public class ModuleInfoDeclaration extends ModuleDirective {
 
    public void parse (File file) {
       try {
-         System.out.println("Parsing ["+file.getCanonicalPath()+"]");
          Scanner scanner = new Scanner(new FileReader(file));
 
          ModuleDirective mDirective = null;

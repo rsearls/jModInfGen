@@ -18,7 +18,6 @@ public class DotFileParser
 
    private final static String NOT_FOUND = "(not found)";
    private Pattern quotationMarks = Pattern.compile("([\"'])(\\\\?.)*?\\1");
-   private boolean isDEBUG=false;
 
    public DotFileModel parse( File file) {
       DotFileModel dotFileModel = null;
@@ -37,17 +36,10 @@ public class DotFileParser
             // 1st stmt is digraph with jar name
             if (fileScan.hasNext()) {
                String line = fileScan.next();
-               System.out.println(line); // original  (debug)
-               String[] tokens = line.split(" ");
-               if (tokens.length >= 2) {
-                  //if ("digraph".equals(tokens[0])) {
-                  //}
-               }
             }
 
             while (fileScan.hasNext()) {
                String line = fileScan.next();
-               System.out.println(line); // original  (debug)
 
                try (Scanner s = new Scanner(line))
                {
@@ -60,13 +52,11 @@ public class DotFileParser
                      if (internalPackages.get(exportPkg) == null)
                      {
                         internalPackages.put(exportPkg, new TreeSet<String>());
-                        if (isDEBUG) System.out.print(exportPkg); // debug
                      }
 
                      if (m.find()) {
                         // external package ref by internal classes
                         String requiredPkg = rmQuotes(m.group());
-                        if(isDEBUG) System.out.print(", "+requiredPkg); //debug
                         String dText = parseDependencyText(requiredPkg, internalPackages);
                         if (dText != null) {
                            if (externalPackages.get(dText) == null)
@@ -75,15 +65,11 @@ public class DotFileParser
                            }
                         }
                      }
-                     if(isDEBUG) System.out.println(); // debug
-                  }
-                  else {
-                     if(isDEBUG) System.out.println("NONE"); // debug
                   }
 
                } catch (IllegalStateException se) {
                   // ignore
-                  System.out.println("ISE");
+                  System.out.println(se);
                }
             }
          } catch (FileNotFoundException e) {

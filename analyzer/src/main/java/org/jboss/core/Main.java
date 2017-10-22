@@ -12,7 +12,8 @@ import org.jboss.core.util.Depository;
 import org.jboss.core.util.DumpIt;
 import org.jboss.core.util.FileFinderUtil;
 import org.jboss.core.util.Unification;
-import org.jboss.core.writer.ModuleInfoFileWrite;
+import org.jboss.core.writer.ModuleInfoWrite;
+import org.jboss.core.writer.SummaryReportWriter;
 import org.jboss.module.info.directives.ModuleInfoDeclaration;
 
 import java.io.File;
@@ -42,7 +43,7 @@ public class Main
          mm.setDotFile(ffUtil.getDotFile(file));
          mm.setServicesFileList(ffUtil.getServicesList(file));
          mm.setModuleInfoFile(ffUtil.getModuleInfoFile(file));
-         DumpIt.dumpModel(mm); // debug
+         //DumpIt.dumpModel(mm); // debug
       }
 
       DotFileParser dotParser = new DotFileParser();
@@ -72,8 +73,6 @@ public class Main
          }
       }
 
-      Depository depository = new Depository();
-
       Analyzer analyzer = new Analyzer(mModelList);
       analyzer.analyze();
 
@@ -84,28 +83,15 @@ public class Main
          //unification.print(); // debug
       }
 
-      ModuleInfoFileWrite writer = new ModuleInfoFileWrite();
+      ModuleInfoWrite writer = new ModuleInfoWrite();
       for(ModuleModel mModel: mModelList) {
-         writer.printFile(mModel);
+         //writer.printFile(mModel);
          writer.writeFile(mModel);
       }
 
-      if (Depository.getDuplicatePackageList().isEmpty())
-      {
-         System.out.println("-- No duplicate package names found");
-      } else
-      {
-         System.out.printf("-- %d duplicate package names found in the following modules.\n",
-                 Depository.getDuplicatePackageList().size());
-         for (Map.Entry<String, List<String>> entry : Depository.getDuplicatePackageList().entrySet())
-         {
-            System.out.println("package: " + entry.getKey() + " in modules");
-            for (String moduleName : entry.getValue())
-            {
-               System.out.println("\t" + moduleName);
-            }
-         }
-      }
+      SummaryReportWriter sReportWriter = new SummaryReportWriter();
+      sReportWriter.print(mModelList);
+      sReportWriter.write(mModelList);
    }
 
 }

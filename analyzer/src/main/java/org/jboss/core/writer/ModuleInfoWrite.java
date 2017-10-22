@@ -12,7 +12,7 @@ import java.io.File;
 /**
  * Created by rsearls on 10/22/17.
  */
-public class ModuleInfoFileWrite {
+public class ModuleInfoWrite {
 
    private final String genFilename = "generated-module-info.java";
 
