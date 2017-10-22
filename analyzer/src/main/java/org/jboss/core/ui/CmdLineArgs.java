@@ -18,6 +18,26 @@ public class CmdLineArgs {
    )
    private Path inputDirectory;
 
+   @Parameter(
+           names = { "-v", "--verbose" },
+           description = "Summary Report provides detailed list of files found and processed."
+   )
+   private boolean verbose = false;
+
+   public boolean isVerbose() {
+      return verbose;
+   }
+
+   @Parameter(
+           names = { "-r", "--report" },
+           description = "Summary Report written to a file rather than the console"
+   )
+   private boolean report = false;
+
+   public boolean isReport() {
+      return report;
+   }
+
    public Path getInputDirectory() {
 
       if (inputDirectory == null) {

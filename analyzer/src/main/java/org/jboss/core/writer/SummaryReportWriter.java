@@ -43,7 +43,6 @@ public class SummaryReportWriter {
 
       try (PrintWriter pWriter = new PrintWriter(modFile))
       {
-
          pWriter.print(header());
          pWriter.print(toStringModuleModels());
          pWriter.print(toStringModuleInfos());
@@ -57,6 +56,7 @@ public class SummaryReportWriter {
       {
          System.out.println(e);
       }
+      System.out.println("Summary Report written to " + genFilename);
    }
 
    public void print(List<ModuleModel> mModelList) {

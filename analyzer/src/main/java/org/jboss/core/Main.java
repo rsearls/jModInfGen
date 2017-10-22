@@ -90,8 +90,12 @@ public class Main
       }
 
       SummaryReportWriter sReportWriter = new SummaryReportWriter();
-      sReportWriter.print(mModelList);
-      sReportWriter.write(mModelList);
+      sReportWriter.setVerbose(cmdLineArgs.isVerbose());
+      if (cmdLineArgs.isReport()) {
+         sReportWriter.write(mModelList);
+      } else {
+         sReportWriter.print(mModelList);
+      }
    }
 
 }
