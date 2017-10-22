@@ -85,6 +85,7 @@ public class ModuleInfoWriter
          }
       }
 ***/
+/**
       // List services provided
       ServicesModel servicesModel = mModel.getServicesModel();
       if (servicesModel != null) {
@@ -112,7 +113,7 @@ public class ModuleInfoWriter
             }
          }
       }
-
+**/
       sb.append("}");
       sb.append("\n");
 

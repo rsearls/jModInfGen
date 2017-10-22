@@ -18,7 +18,7 @@ public class ModuleModel {
    private File moduleInfoFile;
 
    private DotFileModel dotFileModel;
-   private ServicesModel servicesModel;
+   private List<ServicesModel> servicesModelList = new ArrayList<>();
    private ModuleInfoDeclaration moduleInfoModel;
    private Unification unification;
 
@@ -30,12 +30,8 @@ public class ModuleModel {
       this.dotFileModel = dotFileModel;
    }
 
-   public ServicesModel getServicesModel() {
-      return servicesModel;
-   }
-
-   public void setServicesModel(ServicesModel servicesModel) {
-      this.servicesModel = servicesModel;
+   public List<ServicesModel> getServicesModelList() {
+      return servicesModelList;
    }
 
    public ModuleInfoDeclaration getModuleInfoModel() {

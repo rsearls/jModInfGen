@@ -55,7 +55,7 @@ public class Main
 
          for(File sFile : mm.getServicesFileList()) {
             ServicesModel sModel = serviceFileParser.parse(sFile);
-            mm.setServicesModel(sModel);
+            mm.getServicesModelList().add(sModel);
          }
 
          if (mm.getModuleInfoFile() != null) {
