@@ -46,17 +46,27 @@ public class RequiresDirective extends ModuleDirective {
 
    @Override
    public void print() {
-      System.out.printf("REQUIRES %s %s;\n", modifier, getName());
+      System.out.println(this.toString());
    }
 
-   public void printReferencedPackagesComment() {
+   public String toString() {
+      return "requires " + modifier + " " + getName() + ";";
+   }
 
+
+   public void printReferencedPackagesComment() {
+      System.out.printf(this.toString());
+   }
+
+   public String toStringReferencedPackagesComment() {
+      StringBuilder sb = new StringBuilder();
       if (!getModuleNameList().isEmpty())
       {
          for (String pkgName : getModuleNameList())
          {
-            System.out.printf("\t\t\t\t//%s  - package referenced\n", pkgName);
+            sb.append("\t\t//" + pkgName + "  - package referenced\n");
          }
       }
+      return sb.toString();
    }
 }

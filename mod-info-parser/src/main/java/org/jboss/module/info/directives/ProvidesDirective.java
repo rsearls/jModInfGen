@@ -51,16 +51,20 @@ public class ProvidesDirective extends ExportsDirective {
 
    @Override
    public void print() {
+      System.out.println(this.toString());
+   }
+
+   public String toString() {
       StringBuilder sbuf = new StringBuilder();
-      sbuf.append("PROVIDES " + getName());
+      sbuf.append("provides " + getName());
       if (isWITH) {
-         sbuf.append(" WITH \n");
+         sbuf.append(" with \n");
          for (String s: moduleNameList) {
             sbuf.append("\t\t" + s + ",\n");
          }
          sbuf.delete(sbuf.lastIndexOf(","), sbuf.length());
       }
       sbuf.append(";");
-      System.out.println(sbuf.toString());
+      return sbuf.toString();
    }
 }

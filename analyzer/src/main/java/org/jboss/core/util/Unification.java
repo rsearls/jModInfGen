@@ -116,6 +116,83 @@ public class Unification {
       }
    }
 
+   public String getModuleInfoStart () {
+
+      String moduleName = null;
+      if (mModel.getModuleInfoModel() != null)
+      {
+         moduleName = mModel.getModuleInfoModel().getName();
+      } else if (mModel.getDotFileModel() != null)
+      {
+         moduleName = mModel.getDotFileModel().getModuleName();
+      }
+      if (moduleName == null)
+      {
+         moduleName = mModel.getRootDir().getName();
+      }
+      if (moduleName == null)
+      {
+         moduleName = "unknown-Module-Name";
+      }
+
+      return "module " + moduleName + " {\n" ;
+   }
+
+   public String getModuleInfoEnd() {
+      return "}";
+   }
+
+   public String getExportsDeclarations() {
+      StringBuilder sb = new StringBuilder();
+      for (ModuleDirective m : exportsMap.values())
+      {
+         sb.append(m.toString() + "\n");
+      }
+      return sb.toString();
+   }
+
+   public String getRequiresDeclarations() {
+      StringBuilder sb = new StringBuilder();
+      for (RequiresDirective m : requiresMap.values())
+      {
+         sb.append(m.toString() + "\n");
+         sb.append(m.toStringReferencedPackagesComment());
+      }
+      return sb.toString();
+   }
+
+   public String getOpensDeclarations() {
+      StringBuilder sb = new StringBuilder();
+      if (mModel.getModuleInfoModel() != null)
+      {
+         for (ModuleDirective m : mModel.getModuleInfoModel().getOpensMap().values())
+         {
+            sb.append(m.toString());
+         }
+      }
+      return sb.toString();
+   }
+
+   public String getUsesDeclarations() {
+      StringBuilder sb = new StringBuilder();
+      if (mModel.getModuleInfoModel() != null)
+      {
+         for (ModuleDirective m : mModel.getModuleInfoModel().getUsesMap().values())
+         {
+            sb.append(m.toString());
+         }
+      }
+      return sb.toString();
+   }
+
+   public String getProvidesDeclarations() {
+      StringBuilder sb = new StringBuilder();
+      for (ModuleDirective m : providesMap.values())
+      {
+         m.print();
+      }
+      return sb.toString();
+   }
 
    public void print() {
 
@@ -180,7 +257,7 @@ public class Unification {
    }
 
    private void printUnrsolvedRequiredPackages() {
-
+/**
       if (!unresolveRequiresPackageNamesList.isEmpty())
       {
          System.out.println("/**");
@@ -190,7 +267,29 @@ public class Unification {
          {
             System.out.printf("\t\tREQUIRES %s;\n", pkgName);
          }
-         System.out.println("**/");
+         System.out.println("**/  /*");
       }
+      **/
+      System.out.println(this.toString());
+   }
+
+   public String toStringUnrsolvedRequiredPackages() {
+      StringBuilder sb = new StringBuilder();
+      if (!unresolveRequiresPackageNamesList.isEmpty())
+      {
+         sb.append("/**\n");
+         sb.append("\tThe module names for these packages are unknown.\n");
+         sb.append("\tUser intervention is needed.\n");
+         //System.out.println("\tThe module names for these packages are unknown.");
+         //System.out.println("\tUser intervention is needed.");
+         for (String pkgName : unresolveRequiresPackageNamesList)
+         {
+            //System.out.printf("\t\tREQUIRES %s;\n", pkgName);
+            sb.append("\t\trequires " + pkgName + ";\n");
+         }
+         //System.out.println("**/");
+         sb.append("**/");
+      }
+      return sb.toString();
    }
 }

@@ -37,6 +37,10 @@ public class UsesDirective extends ModuleDirective {
 
    @Override
    public void print() {
-      System.out.println("USES " + getName() + ";");
+      System.out.println(this.toString());
+   }
+
+   public String toString() {
+      return "uses "  + getName() + ";";
    }
 }

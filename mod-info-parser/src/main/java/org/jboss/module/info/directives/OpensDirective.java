@@ -14,17 +14,21 @@ public class OpensDirective extends ExportsDirective {
 
    @Override
    public void print() {
+      System.out.println(this.toString());
+   }
+
+   public String toString() {
 
       StringBuilder sbuf = new StringBuilder();
-      sbuf.append("OPENS " + getName());
+      sbuf.append("opens " + getName());
       if (isTO) {
-         sbuf.append(" TO \n");
+         sbuf.append(" to \n");
          for (String s: moduleNameList) {
             sbuf.append("\t\t" + s + ",\n");
          }
          sbuf.delete(sbuf.lastIndexOf(","), sbuf.length());
       }
       sbuf.append(";");
-      System.out.println(sbuf.toString());
+      return sbuf.toString();
    }
 }

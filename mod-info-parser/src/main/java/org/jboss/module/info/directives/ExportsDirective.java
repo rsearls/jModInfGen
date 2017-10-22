@@ -5,7 +5,6 @@ import org.jboss.parser.rules.sym;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.parser.rules.sym;
 
 /**
  * The exports directive specifies the name of a package to be exported by the current
@@ -66,16 +65,20 @@ public class ExportsDirective extends ModuleDirective {
 
    @Override
    public void print() {
+      System.out.println(this.toString());
+   }
+
+   public String toString() {
       StringBuilder sbuf = new StringBuilder();
-      sbuf.append("EXPORTS " + getName());
+      sbuf.append("exports " + getName());
       if (isTO) {
-         sbuf.append(" TO \n");
+         sbuf.append(" to \n");
          for (String s: moduleNameList) {
             sbuf.append("\t\t" + s + ",\n");
          }
          sbuf.delete(sbuf.lastIndexOf(","), sbuf.length());
       }
       sbuf.append(";");
-   System.out.println(sbuf.toString());
+      return sbuf.toString();
    }
 }

@@ -9,12 +9,11 @@ import java.util.Properties;
 import java.util.Set;
 
 /**
- * Temp utility for getting module names of packages outside Resteasy.
- * TODO replace with lookup utility in future
- * <p>
+ *
  * Created by rsearls on 10/18/17.
  */
 public class Depository {
+
    private static HashMap<String, List<String>> duplicatePackageList = new HashMap<>();
    private static HashMap<String, String> pkgModuleMapping = new HashMap<String, String>();
 
@@ -72,12 +71,13 @@ public class Depository {
          {
             dupValues = new ArrayList<String>();
             dupValues.add(value);
+            duplicatePackageList.put(pkgName, dupValues);
          }
          dupValues.add(moduleName);
       }
    }
 
-   public HashMap<String, List<String>> getDuplicatePackageList() {
+   public static HashMap<String, List<String>> getDuplicatePackageList() {
       return duplicatePackageList;
    }
 }

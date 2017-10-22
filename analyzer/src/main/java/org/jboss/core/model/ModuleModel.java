@@ -21,6 +21,7 @@ public class ModuleModel {
    private List<ServicesModel> servicesModelList = new ArrayList<>();
    private ModuleInfoDeclaration moduleInfoModel;
    private Unification unification;
+   private File writtenFile;
 
    public DotFileModel getDotFileModel() {
       return dotFileModel;
@@ -80,6 +81,14 @@ public class ModuleModel {
 
    public void setUnification(Unification unification) {
       this.unification = unification;
+   }
+
+   public File getWrittenFile() {
+      return writtenFile;
+   }
+
+   public void setWrittenFile(File writtenFile) {
+      this.writtenFile = writtenFile;
    }
 
 }
