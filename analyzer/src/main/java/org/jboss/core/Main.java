@@ -33,6 +33,12 @@ public class Main
 
       File inDir = cmdLineArgs.getInputDirectory().toFile();
 
+      if (cmdLineArgs.isHelp()) {
+         System.out.print(cmdLineArgs.toStringHelp());
+         System.exit(1);
+      }
+
+
       FileFinderUtil ffUtil = new FileFinderUtil();
       List<File> rawModules = ffUtil.getModuleList(inDir);
       List<ModuleModel> mModelList = new ArrayList<>();
