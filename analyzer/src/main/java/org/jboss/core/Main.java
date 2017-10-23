@@ -28,17 +28,24 @@ public class Main
 {
    public static void main(String[] args) throws Exception {
 
+      // check cmd-line args
       CmdLineArgs cmdLineArgs = new CmdLineArgs();
       new JCommander( cmdLineArgs, args );
 
       File inDir = cmdLineArgs.getInputDirectory().toFile();
 
+      // Provide user help
       if (cmdLineArgs.isHelp()) {
          System.out.print(cmdLineArgs.toStringHelp());
          System.exit(1);
       }
 
+      // load user provided properties file
+      if (cmdLineArgs.getPropertiesFile() != null) {
+         Depository.loadFile(cmdLineArgs.getPropertiesFile().toFile());
+      }
 
+      // Collect all the files to be analyzed
       FileFinderUtil ffUtil = new FileFinderUtil();
       List<File> rawModules = ffUtil.getModuleList(inDir);
       List<ModuleModel> mModelList = new ArrayList<>();
@@ -82,6 +89,7 @@ public class Main
       Analyzer analyzer = new Analyzer(mModelList);
       analyzer.analyze();
 
+      //Merge data from jdeps report and any existing module-info file.
       for(ModuleModel mModel: mModelList) {
          Unification unification = new Unification(mModel);
          unification.process();

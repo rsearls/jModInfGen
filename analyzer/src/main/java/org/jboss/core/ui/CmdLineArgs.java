@@ -34,9 +34,13 @@ public class CmdLineArgs {
            names = { "-f", "--file" },
            description = "A java properties file that contains package name to module name mappings",
            converter = PathConverter.class,
-           validateWith = PathValidator.class
+           validateWith = FileValidator.class
    )
    private Path propertiesFile;
+
+   public Path getPropertiesFile() {
+      return propertiesFile;
+   }
 
    @Parameter(
            names = { "-v", "--verbose" },
@@ -69,7 +73,6 @@ public class CmdLineArgs {
    }
 
    private final String twoSpaces = "  ";
-   private final String TAB = "\t";
 
    public String toStringHelp() {
       StringBuilder sb = new StringBuilder();

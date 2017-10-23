@@ -1,7 +1,10 @@
 package org.jboss.core.util;
 
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,18 +43,28 @@ public class Depository {
       }
    }
 
+   public static void loadFile(File file) {
+      try
+      {
+         Properties properties = new Properties();
+         InputStream input = new FileInputStream(file);
+
+         properties.load(input);
+         Set<String> keys = properties.stringPropertyNames();
+
+         for (String k : keys)
+         {
+            pkgModuleMapping.put(k, properties.getProperty(k));
+            //System.out.format("prop: %s    %s  \n", k, properties.getProperty(k));
+         }
+      } catch (IOException ioe)
+      {
+         System.out.println(ioe);
+      }
+   }
 
    public static String getModuleName(String pkg) {
       return pkgModuleMapping.get(pkg);
-   }
-
-   public static boolean isJavaBaseModule(String pkg) {
-      String value = pkgModuleMapping.get(pkg);
-      if (value == null)
-      {
-         return false;
-      }
-      return "java.base".equals(pkgModuleMapping.get(pkg));
    }
 
    /**
