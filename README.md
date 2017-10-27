@@ -21,11 +21,11 @@ It is likely this tool will not be able to identify all the module names of all 
 packages reported by jdeps.  jModInfGen makes the best effort to identify external module names.
 It reports unknown packages in the generated module.info file for the user to address.
 
-The export directive allows the declared package to be exported to only as set of
+The `export` directive allows the declared package to be exported only to a set of
 specifically-named modules, and to no others.  This restriction can not be determined
 by this tool.  The generated file may need to be editied by the user.
 
-The uses directive allows the programmer to identify a service residing in an external
+The `uses` directive allows the programmer to identify a service residing in an external
 module that is used in this module.  This is another element this tool can not detect.
 The user may need to provide edits to the generated module-info file.
 
