@@ -182,7 +182,7 @@ public class SummaryReportWriter {
 
    private String toStringWrittenFiles() {
       StringBuilder sb = new StringBuilder();
-      sb.append(twoSpaces + writtenFileList.size() + " generated-module-info.java file written\n");
+      sb.append(twoSpaces + writtenFileList.size() + " generated-module-info.java files written\n");
       if (verbose)
       {
          for (File f : writtenFileList)
