@@ -65,7 +65,7 @@ public class DotFileModel {
       this.extPackages.addAll(extPackages);
    }
 
-   public TreeSet<String> getExpPackages() {
+   public TreeSet<String> getExtPackages() {
       return extPackages;
    }
 

@@ -39,6 +39,7 @@ public class ModuleInfoWrite {
                   pWriter.print(unification.getOpensDeclarations());
                   pWriter.print(unification.getUsesDeclarations());
                   pWriter.print(unification.getProvidesDeclarations());
+                  pWriter.print(unification.toStringUnrsolvedRequiredPackages());
                   pWriter.print(unification.getModuleInfoEnd());
                } else {
                   pWriter.print("// not data found.");

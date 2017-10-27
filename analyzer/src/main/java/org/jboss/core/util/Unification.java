@@ -105,7 +105,7 @@ public class Unification {
             }
             requiresMap.put(moduleName, eDirective);
          }
-         unresolveRequiresPackageNamesList.addAll(dFileModel.getExpPackages());
+         unresolveRequiresPackageNamesList.addAll(dFileModel.getExtPackages());
       }
    }
 
@@ -238,7 +238,6 @@ public class Unification {
       }
 
       System.out.println();
-      printUnrsolvedRequiredPackages();
 
       if (mModel.getModuleInfoModel() != null)
       {
@@ -261,42 +260,23 @@ public class Unification {
          m.print();
       }
 
-      System.out.println("}");
-   }
 
-   private void printUnrsolvedRequiredPackages() {
-/**
-      if (!unresolveRequiresPackageNamesList.isEmpty())
-      {
-         System.out.println("/**");
-         System.out.println("\tThe module names for these packages are unknown.");
-         System.out.println("\tUser intervention is needed.");
-         for (String pkgName : unresolveRequiresPackageNamesList)
-         {
-            System.out.printf("\t\tREQUIRES %s;\n", pkgName);
-         }
-         System.out.println("**/  /*");
-      }
-      **/
-      System.out.println(this.toString());
+      System.out.println(toStringUnrsolvedRequiredPackages());
+      System.out.println("}");
    }
 
    public String toStringUnrsolvedRequiredPackages() {
       StringBuilder sb = new StringBuilder();
       if (!unresolveRequiresPackageNamesList.isEmpty())
       {
-         sb.append("/**\n");
+         sb.append("\n/**\n");
          sb.append("\tThe module names for these packages are unknown.\n");
-         sb.append("\tUser intervention is needed.\n");
-         //System.out.println("\tThe module names for these packages are unknown.");
-         //System.out.println("\tUser intervention is needed.");
+         sb.append("\tUser intervention may be needed.\n");
          for (String pkgName : unresolveRequiresPackageNamesList)
          {
-            //System.out.printf("\t\tREQUIRES %s;\n", pkgName);
             sb.append("\t\trequires " + pkgName + ";\n");
          }
-         //System.out.println("**/");
-         sb.append("**/");
+         sb.append("**/\n");
       }
       return sb.toString();
    }
