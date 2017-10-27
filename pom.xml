@@ -21,9 +21,7 @@
     <modules>
         <module>mod-info-parser</module>
         <module>analyzer</module>
-<!--
         <module>maven-plugin</module>
--->
     </modules>
     <dependencyManagement>
         <dependencies>

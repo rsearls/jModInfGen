@@ -92,6 +92,7 @@ public class Main
       //Merge data from jdeps report and any existing module-info file.
       for(ModuleModel mModel: mModelList) {
          Unification unification = new Unification(mModel);
+         unification.setVerbose(cmdLineArgs.isVerbose());
          unification.process();
          mModel.setUnification(unification);
          //unification.print(); // debug

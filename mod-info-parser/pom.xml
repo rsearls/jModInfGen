@@ -21,11 +21,9 @@
 
    <dependencies>
       <dependency>
-         <groupId>unknown</groupId>
+         <groupId>org.unknown</groupId>
          <artifactId>java-cup</artifactId>
          <version>11a</version>
-         <scope>system</scope>
-         <systemPath>${basedir}/lib/java-cup-11a.jar</systemPath>
       </dependency>
       <dependency>
          <groupId>com.beust</groupId>
@@ -93,6 +91,56 @@
                </execution>
             </executions>
          </plugin>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>2.4.1</version>
+            <configuration>
+               <!-- get all project dependencies -->
+               <descriptorRefs>
+                  <descriptorRef>jar-with-dependencies</descriptorRef>
+               </descriptorRefs>
+               <!-- don't append "jar-with-dependencies" to jar -->
+               <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+            <executions>
+               <execution>
+                  <id>make-assembly</id>
+                  <!-- bind to the packaging phase -->
+                  <phase>package</phase>
+                  <goals>
+                     <goal>single</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+
+         <!-- force this project-local archive into local repository for jar building -->
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-install-plugin</artifactId>
+            <version>2.5.2</version>
+            <executions>
+               <execution>
+                  <id>install-artifact</id>
+                  <phase>clean</phase>
+                  <configuration>
+                     <file>${project.basedir}/lib/java-cup-11a.jar</file>
+                     <repositoryLayout>default</repositoryLayout>
+                     <groupId>org.unknown</groupId>
+                     <artifactId>java-cup</artifactId>
+                     <version>11a</version>
+                     <packaging>jar</packaging>
+                     <generatePom>true</generatePom>
+                  </configuration>
+                  <goals>
+                     <goal>install-file</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+
       </plugins>
    </build>
 </project>

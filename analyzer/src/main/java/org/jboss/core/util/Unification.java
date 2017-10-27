@@ -27,9 +27,14 @@ public class Unification {
    private List<String> unresolveRequiresPackageNamesList = new ArrayList<>();
 
    private final ModuleModel mModel;
+   private boolean verbose = false;
 
    public Unification(ModuleModel mModel) {
       this.mModel = mModel;
+   }
+
+   public void setVerbose(boolean flag) {
+      verbose = flag;
    }
 
    public void process() {
@@ -139,7 +144,7 @@ public class Unification {
    }
 
    public String getModuleInfoEnd() {
-      return "}";
+      return "\n}";
    }
 
    public String getExportsDeclarations() {
@@ -156,7 +161,10 @@ public class Unification {
       for (RequiresDirective m : requiresMap.values())
       {
          sb.append(m.toString() + "\n");
-         sb.append(m.toStringReferencedPackagesComment());
+         if (verbose)
+         {
+            sb.append(m.toStringReferencedPackagesComment());
+         }
       }
       return sb.toString();
    }
