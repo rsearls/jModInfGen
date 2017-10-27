@@ -48,7 +48,7 @@ provide edits to the generated module-info file.
 that can not be detected by this tool and may required user editing of the generated file.
 
 
-##Usage
+## Usage
 ### jModInfGen-maven-plugin
 To be written
 ### jModInfGen Executable Jar
