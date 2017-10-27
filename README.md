@@ -29,27 +29,27 @@ The `uses` directive allows the programmer to identify a service residing in an 
 module that is used in this module.  This is another element this tool can not detect.
 The user may need to provide edits to the generated module-info file.
 
-The open directive allows all of the non-public elements of that package to be accessed
+The `open` directive allows all of the non-public elements of the declared package to be accessed
 by this module.  This is another element this tool can not detect.  The user may need to
 provide edits to the generated module-info file.
 
-The requires directive has optional qualifiers transitive and static.  This is information
+The `requires` directive has optional qualifiers `transitive` and `static`.  This is information
 that can not be detected by this tool and may required user editing of the generated file.
 
 
 ## Project Structure
-Project module, mod-info-parser uses lexical analyzer JFlex and LALR Parser Generator for Java
+Project module, `mod-info-parser` uses lexical analyzer JFlex and LALR Parser Generator for Java
 java_cup in extracting data from each module-info.java file.  This tool does not process
 module-info.class files as this would require JDK9.
 
-Project module, analyzer processes the data written to classes.dot by utility jdeps and
+Project module, `analyzer` processes the data written to `classes.dot` by utility `jdeps` and
 a module-info.java file found in the project directory.  It generates a module-info file
 of the analyzed data.
 
-Project maven-plugin provides a plugin to be used on multi-module maven projects.  It
+Project `maven-plugin` provides a plugin to be used on multi-module maven projects.  It
 will identify cross module dependences.  This plugin relies on the output from
 org.apache.maven.plugins:maven-jdeps-plugin.  The plugin must be configured to generate
-classes.dot files.
+`classes.dot` files.
 
 
 ## Related Tools
@@ -57,22 +57,22 @@ Currently there are 2 other known 3rd party projects related to addressing
 JSR 376: "The Java Platform Module System" in Project Jigsaw[2], 
 maven-jdeps-plugin [3] and moditect [4].
 
-The maven-jdeps-plugin uses the JDK's jdeps tool to analyze the classes in each
+The `maven-jdeps-plugin` uses the JDK's jdeps tool to analyze the classes in each
 maven module of a project.  The plugin can run on each module of a multi-module 
 project but it does not perform dependency analysis across modules.   (jModInfGen
 when pointed to the root directory of a multi-module maven project does perform 
 a cross module analysis of the jdeps analysis files and generates references to 
 the inter-project modules.)
 
-Moditect is a maven plugin.  It generates a module-info.java file for given artifacts
+`Moditect` is a maven plugin.  It generates a module-info.java file for given artifacts
 for Maven dependencies or local JAR files in the project.  The module directives can
 be declared within elements of the plugin.
 
 moditect and jModInfGen differ in the following ways,
-  - moditect requires JDK 9 in order to run.  Your app can't make use of this tool
+* moditect requires JDK 9 in order to run.  Your app can't make use of this tool
       to generate module-info files until it can build with JDK 9.  jModInfGen will
       run using JDK 8.
-  - moditect allows the project to retain pre-defined module directives in the
+* moditect allows the project to retain pre-defined module directives in the
       pom.xml.  The focus of jModInfGen is to initially generate the module directives.
       
 
