@@ -4,6 +4,17 @@ Tool for generating a module-info file from existing java sources.
 
 Version 1.0.0.SNAPSHOT  <date>
 
+* [Overview](#overview)
+* [Dependencies](#dependencies)
+* [Limitations](#limitations)
+* [Usage](#usage)
+    *[jModInfGen-maven-plugin](#jmodinfgen_maven_plugin)
+    *[jModInfGen Executable Jar](#jmodinfgen_executable_jar)
+    *[Module-Info Parser Executable Jar](#module_info_parser_executable_jar)
+* [Project Structure](#project_structure)
+* [Related Tools](#related_tools)
+* [References](#references)
+
 ## Overview
 The jModInfGen project provides a utility to assist in the construction of a JDK 9
 module-info.java file for your code.  This tool uses the output from the JDK's
@@ -17,37 +28,46 @@ jModInfGen requires the presents of classes.dot file(s) that jdeps generates.  j
 can be run manually or with the org.apache.maven.plugins:maven-jdeps-plugin.
 
 ## Limitations
-It is likely this tool will not be able to identify all the module names of all the
+* It is likely this tool will not be able to identify all the module names of all the
 packages reported by jdeps.  jModInfGen makes the best effort to identify external module names.
 It reports unknown packages in the generated module.info file for the user to address.
 
-The `export` directive allows the declared package to be exported only to a set of
+* The `export` directive allows the declared package to be exported only to a set of
 specifically-named modules, and to no others.  This restriction can not be determined
 by this tool.  The generated file may need to be editied by the user.
 
-The `uses` directive allows the programmer to identify a service residing in an external
+* The `uses` directive allows the programmer to identify a service residing in an external
 module that is used in this module.  This is another element this tool can not detect.
 The user may need to provide edits to the generated module-info file.
 
-The `open` directive allows all of the non-public elements of the declared package to be accessed
+* The `open` directive allows all of the non-public elements of the declared package to be accessed
 by this module.  This is another element this tool can not detect.  The user may need to
 provide edits to the generated module-info file.
 
-The `requires` directive has optional qualifiers `transitive` and `static`.  This is information
+* The `requires` directive has optional qualifiers `transitive` and `static`.  This is information
 that can not be detected by this tool and may required user editing of the generated file.
 
 
+##Usage
+### jModInfGen-maven-plugin
+To be written
+### jModInfGen Executable Jar
+To be written
+### Module-Info Parser Executable Jar
+To be written
+
+
 ## Project Structure
-- Project module, `mod-info-parser` uses lexical analyzer JFlex and LALR Parser Generator for Java
+* Project module, `mod-info-parser` uses lexical analyzer JFlex and LALR Parser Generator for Java
 java_cup in extracting data from each module-info.java file.  This tool does not process
 module-info.class files as this would require JDK9.  Any executable jar is provided as
 part of the build.
 
-- Project module, `analyzer` processes the data written to `classes.dot` by utility `jdeps` and
+* Project module, `analyzer` processes the data written to `classes.dot` by utility `jdeps` and
 a module-info.java file found in the project directory.  It generates a module-info file
 of the analyzed data.  An executable jar is provided as part of the build.
 
-- Project `maven-plugin` provides a plugin to be used on multi-module maven projects.  It
+* Project `maven-plugin` provides a plugin to be used on multi-module maven projects.  It
 will identify cross module dependences.  This plugin relies on the output from
 org.apache.maven.plugins:maven-jdeps-plugin.  The plugin must be configured to generate
 `classes.dot` files.
