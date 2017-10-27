@@ -55,24 +55,24 @@ org.apache.maven.plugins:maven-jdeps-plugin.  The plugin must be configured to g
 ## Related Tools
 Currently there are 2 other known 3rd party projects related to addressing 
 JSR 376: "The Java Platform Module System" in Project Jigsaw[2], 
-maven-jdeps-plugin [3] and moditect [4].
+`maven-jdeps-plugin` [3] and `moditect` [4].
 
-The `maven-jdeps-plugin` uses the JDK's jdeps tool to analyze the classes in each
+* The `maven-jdeps-plugin` uses the JDK's jdeps tool to analyze the classes in each
 maven module of a project.  The plugin can run on each module of a multi-module 
 project but it does not perform dependency analysis across modules.   (jModInfGen
 when pointed to the root directory of a multi-module maven project does perform 
 a cross module analysis of the jdeps analysis files and generates references to 
 the inter-project modules.)
 
-`Moditect` is a maven plugin.  It generates a module-info.java file for given artifacts
+* `Moditect` is a maven plugin.  It generates a module-info.java file for given artifacts
 for Maven dependencies or local JAR files in the project.  The module directives can
 be declared within elements of the plugin.
 
 moditect and jModInfGen differ in the following ways,
-* moditect requires JDK 9 in order to run.  Your app can't make use of this tool
+** moditect requires JDK 9 in order to run.  Your app can't make use of this tool
       to generate module-info files until it can build with JDK 9.  jModInfGen will
       run using JDK 8.
-* moditect allows the project to retain pre-defined module directives in the
+** moditect allows the project to retain pre-defined module directives in the
       pom.xml.  The focus of jModInfGen is to initially generate the module directives.
       
 
