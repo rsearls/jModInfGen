@@ -38,15 +38,16 @@ that can not be detected by this tool and may required user editing of the gener
 
 
 ## Project Structure
-Project module, `mod-info-parser` uses lexical analyzer JFlex and LALR Parser Generator for Java
+- Project module, `mod-info-parser` uses lexical analyzer JFlex and LALR Parser Generator for Java
 java_cup in extracting data from each module-info.java file.  This tool does not process
-module-info.class files as this would require JDK9.
+module-info.class files as this would require JDK9.  Any executable jar is provided as
+part of the build.
 
-Project module, `analyzer` processes the data written to `classes.dot` by utility `jdeps` and
+- Project module, `analyzer` processes the data written to `classes.dot` by utility `jdeps` and
 a module-info.java file found in the project directory.  It generates a module-info file
-of the analyzed data.
+of the analyzed data.  An executable jar is provided as part of the build.
 
-Project `maven-plugin` provides a plugin to be used on multi-module maven projects.  It
+- Project `maven-plugin` provides a plugin to be used on multi-module maven projects.  It
 will identify cross module dependences.  This plugin relies on the output from
 org.apache.maven.plugins:maven-jdeps-plugin.  The plugin must be configured to generate
 `classes.dot` files.
