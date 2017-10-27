@@ -69,10 +69,10 @@ for Maven dependencies or local JAR files in the project.  The module directives
 be declared within elements of the plugin.
 
 moditect and jModInfGen differ in the following ways,
-** moditect requires JDK 9 in order to run.  Your app can't make use of this tool
+- moditect requires JDK 9 in order to run.  Your app can't make use of this tool
       to generate module-info files until it can build with JDK 9.  jModInfGen will
       run using JDK 8.
-** moditect allows the project to retain pre-defined module directives in the
+- moditect allows the project to retain pre-defined module directives in the
       pom.xml.  The focus of jModInfGen is to initially generate the module directives.
       
 
