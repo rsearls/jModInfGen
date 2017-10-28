@@ -8,9 +8,14 @@ Version 1.0.0.SNAPSHOT  <date>
 * [Dependencies](#dependencies)
 * [Limitations](#limitations)
 * [Usage](#usage)
-    *[jModInfGen-maven-plugin](#jmodinfgen_maven_plugin)
-    *[jModInfGen Executable Jar](#jmodinfgen_executable_jar)
-    *[Module-Info Parser Executable Jar](#module_info_parser_executable_jar)
+    * [jModInfGen-maven-plugin](#jmodinfgen_maven_plugin)
+        * [Setup](#setup)
+        * [Executing The Project](#executing_the_project)
+        * [Summary Report](#Summary_report)
+        * [Generated Files](#generated_files)
+        * [generated-module-info.java Sample](#generated_module_info_java_sample)
+    * [jModInfGen Executable Jar](#jmodinfgen_executable_jar)
+    * [Module-Info Parser Executable Jar](#module_info_parser_executable_jar)
 * [Project Structure](#project_structure)
 * [Related Tools](#related_tools)
 * [References](#references)
@@ -66,9 +71,9 @@ causes detailed information to be written in the summary and in each generated m
 
 #### Executing The Project
 Three steps are required in generating the module-info files.
-* mvn clean install            // compile the project
-* mvn jdeps:jdkinternals       // generate the jdeps *.dot files
-* mvn jModInfGen:generate-module-info   // generates `generated module-info.java` files
+* mvn clean install                        // compile the project
+* mvn jdeps:jdkinternals                   // generate the jdeps' *.dot files
+* mvn jModInfGen:generate-module-info      // generates `generated module-info.java` files
 
 
 #### Summary Report
@@ -142,7 +147,7 @@ These files are in the branch for your perusal
 	modules/endorsed/target/gen-jdeps/summary.dot
 ```
 
-#### generated-module-info.java Format
+#### generated-module-info.java Sample
 
 
 
