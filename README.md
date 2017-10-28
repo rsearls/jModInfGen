@@ -15,7 +15,6 @@ Version 1.0.0.SNAPSHOT  <date>
         * [Generated Files](#generated_files)
         * [generated-module-info.java Sample](#generated_module_info_java_sample)
     * [jModInfGen Executable Jar](#jmodinfgen_executable_jar)
-    * [Module-Info Parser Executable Jar](#module_info_parser_executable_jar)
 * [Project Structure](#project_structure)
 * [Related Tools](#related_tools)
 * [References](#references)
@@ -42,11 +41,11 @@ specifically-named modules, and to no others.  This restriction can not be deter
 by this tool.  The generated file may need to be editied by the user.
 
 * The `uses` directive allows the programmer to identify a service residing in an external
-module that is used in this module.  This is another element this tool can not detect.
+module that is used in this module.  This is an element this tool can not detect.
 The user may need to provide edits to the generated module-info file.
 
 * The `open` directive allows all of the non-public elements of the declared package to be accessed
-by this module.  This is another element this tool can not detect.  The user may need to
+by this module.  This is an element this tool can not detect.  The user may need to
 provide edits to the generated module-info file.
 
 * The `requires` directive has optional qualifiers `transitive` and `static`.  This is information
@@ -218,10 +217,6 @@ but for which jModInfGen does not have a module-name.
 
 ### jModInfGen Executable Jar
 An executable jar is provided so that jModInfGen can be run from the command-line.
-```
-java -jar analyzer-1.0.0-SNAPSHOT.one-jar.jar
-```
-
 Input options can be see via the `--help` option.
 ```
 java -jar analyzer-1.0.0-SNAPSHOT.one-jar.jar --help
@@ -239,24 +234,18 @@ jModInfoGen command-line options
   -v --verbose  The Summary Report will contains a detailed list of files found and processed.
 ```
 
-
-### Module-Info Parser Executable Jar
-To be written
-
-
 ## Project Structure
 * Project module, `mod-info-parser` uses lexical analyzer JFlex and LALR Parser Generator for Java
 java_cup in extracting data from each module-info.java file.  This tool does not process
-module-info.class files as this would require JDK9.  Any executable jar is provided as
-part of the build.
+module-info.class files as this would require JDK9.
 
 * Project module, `analyzer` processes the data written to `classes.dot` by utility `jdeps` and
 a module-info.java file found in the project directory.  It generates a module-info file
-of the analyzed data.  An executable jar is provided as part of the build.
+of the analyzed data.
 
 * Project `maven-plugin` provides a plugin to be used on multi-module maven projects.  It
 will identify cross module dependences.  This plugin relies on the output from
-org.apache.maven.plugins:maven-jdeps-plugin.  The plugin must be configured to generate
+org.apache.maven.plugins:maven-jdeps-plugin.  `maven-jdeps-plugin` must be configured to generate
 `classes.dot` files.
 
 
@@ -274,7 +263,7 @@ the inter-project modules.)
 
 * `Moditect` is a maven plugin.  It generates a module-info.java file for given artifacts
 for Maven dependencies or local JAR files in the project.  The module directives can
-be declared within elements of the plugin.
+be declared within configuration elements of the plugin definition.
 
 moditect and jModInfGen differ in the following ways,
 - moditect requires JDK 9 in order to run.  Your app can't make use of this tool
@@ -282,6 +271,8 @@ moditect and jModInfGen differ in the following ways,
       run using JDK 8.
 - moditect allows the project to retain pre-defined module directives in the
       pom.xml.  The focus of jModInfGen is to initially generate the module directives.
+      jModInfGen could be used to generate the initial module information and plug
+      that data into the moditect configuration declarations.
       
 
 ## References
