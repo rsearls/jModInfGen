@@ -159,7 +159,7 @@ These files are in the branch for your perusal
 
 #### generated-module-info.java Sample
 https://github.com/rsearls/jbossws-cxf/blob/jModInfGen-example/modules/test-utils/target/gen-jdeps/generated-module-info.java
-This file show what the output looks like when the `verbose` element is enabled and external
+This file shows what the output looks like when the `verbose` element is enabled and external
 packages that this project uses have been defined in the user provided properies file, `myExternalModMap.properties`.
 
 The header comment lists date of generation and the files used in the analysis and generation
@@ -217,7 +217,29 @@ but for which jModInfGen does not have a module-name.
 
 
 ### jModInfGen Executable Jar
-To be written
+An executable jar is provided so that jModInfGen can be run from the command-line.
+```
+java -jar analyzer-1.0.0-SNAPSHOT.one-jar.jar
+```
+
+Input options can be see via the `--help` option.
+```
+java -jar analyzer-1.0.0-SNAPSHOT.one-jar.jar --help
+
+jModInfoGen command-line options
+  -d --inputDirectory   Path to the directory from which to start analysis.
+                        Default directory is the one from which jModInfGen is run.
+  -f --file   Path to a java properties file that contains package name to module name mappings.
+              The file format is <qualified package name>:<module name>
+              (e.g. java.applet:java.desktop
+                    javax.jws:java.xml.ws
+                    org.omg.CosNaming:java.corba  )
+  --help   Print the command-line options
+  -r --report   Write the Summary Report to a file rather than the console.
+  -v --verbose  The Summary Report will contains a detailed list of files found and processed.
+```
+
+
 ### Module-Info Parser Executable Jar
 To be written
 
