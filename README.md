@@ -63,10 +63,10 @@ The `jModInfGen-maven-plugin` (line 1390) has 2 optional configuration elements.
 (line 1407) causes the summary report to be written to a file rather than the console.  `verbose`
 causes detailed information to be written in the summary and in each generated module-info file.
 
-A verbose summary can be see here,
+A verbose summary report can be see here,
 https://github.com/rsearls/jbossws-cxf/blob/jModInfGen-example/jModInfGen-Summary-Report.txt
 
-This is the default (short) summary report.
+The default (short) summary report looks like this.
 ```
   Fri Oct 27 18:31:19 EDT 2017
   jModInfoGet Summary Report
@@ -83,6 +83,48 @@ This is the default (short) summary report.
   package: org.jboss.wsf.stack.cxf in modules
 	client
 	server
+```
+
+Take particular note of any duplicate package names.  Action may need to be taken to make
+the package names unique.
+```
+... two different modules may export the same package if - at build time and at run time - no module
+depends on both A and B at the same time and if A and B don't depend on each other. In theory you
+could have two modules that export the same package, and use them one at a time with another
+depending module.
+```
+
+There is the list of generated files by `maven-jdeps-plugin` and `jModInfGen-maven-plugin`.
+These files are in the branch for your perusal
+```
+	jModInfGen-Summary-Report.txt
+
+	modules/addons/transports/http/undertow/target/gen-jdeps/classes.dot
+	modules/addons/transports/http/undertow/target/gen-jdeps/summary.dot
+	modules/addons/transports/http/undertow/target/gen-jdeps/generated-module-info.java
+
+	modules/addons/transports/udp/target/gen-jdeps/classes.dot
+	modules/addons/transports/udp/target/gen-jdeps/summary.dot
+	modules/addons/transports/udp/target/gen-jdeps/generated-module-info.java
+
+	modules/client/target/gen-jdeps/classes.dot
+	modules/client/target/gen-jdeps/summary.dot
+	modules/client/target/gen-jdeps/generated-module-info.java
+
+	modules/jaspi/target/gen-jdeps/classes.dot
+	modules/jaspi/target/gen-jdeps/summary.dot
+	modules/jaspi/target/gen-jdeps/generated-module-info.java
+
+	modules/server/target/gen-jdeps/classes.dot
+	modules/server/target/gen-jdeps/summary.dot
+	modules/server/target/gen-jdeps/generated-module-info.java
+
+	modules/test-utils/target/gen-jdeps/classes.dot
+	modules/test-utils/target/gen-jdeps/summary.dot
+	modules/test-utils/target/gen-jdeps/generated-module-info.java
+
+	modules/resources/target/gen-jdeps/summary.dot
+	modules/endorsed/target/gen-jdeps/summary.dot
 ```
 
 
