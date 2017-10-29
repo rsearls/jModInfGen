@@ -197,7 +197,7 @@ public class Unification {
       StringBuilder sb = new StringBuilder();
       for (ModuleDirective m : providesMap.values())
       {
-         sb.append(m.toString());
+         sb.append(m.toString() + "\n");
       }
       return sb.toString();
    }
