@@ -2,7 +2,6 @@ package org.jboss.core;
 
 import org.jboss.core.model.DotFileModel;
 import org.jboss.core.parser.DotFileParser;
-import org.jboss.module.info.directives.ModuleInfoDeclaration;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,9 +9,6 @@ import org.junit.Test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Created by rsearls on 10/29/17.
