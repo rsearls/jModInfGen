@@ -97,13 +97,16 @@ public class Unification {
          for (Map.Entry<String, TreeSet<String>> entry : dFileModel.getRequiredModuleNames().entrySet())
          {
             String moduleName = entry.getKey();
-            RequiresDirective eDirective = new RequiresDirective();
-            eDirective.setName(moduleName);
-            if (entry.getValue() != null)
+            if (!dFileModel.getModuleName().equals(moduleName))
             {
-               eDirective.getModuleNameList().addAll(entry.getValue());
+               RequiresDirective eDirective = new RequiresDirective();
+               eDirective.setName(moduleName);
+               if (entry.getValue() != null)
+               {
+                  eDirective.getModuleNameList().addAll(entry.getValue());
+               }
+               requiresMap.put(moduleName, eDirective);
             }
-            requiresMap.put(moduleName, eDirective);
          }
          unresolveRequiresPackageNamesList.addAll(dFileModel.getExtPackages());
       }
