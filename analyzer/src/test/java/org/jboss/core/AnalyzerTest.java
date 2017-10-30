@@ -2,12 +2,10 @@ package org.jboss.core;
 
 import org.jboss.core.model.DotFileModel;
 import org.jboss.core.model.ModuleModel;
-import org.jboss.core.model.ServicesModel;
 import org.jboss.core.parser.DotFileParser;
-import org.jboss.core.parser.ServiceFileParser;
 import org.jboss.core.util.Analyzer;
+import org.jboss.core.util.Depository;
 import org.jboss.core.util.FileFinderUtil;
-import org.jboss.module.info.directives.ModuleInfoDeclaration;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -50,9 +48,11 @@ public class AnalyzerTest {
       File f = mm.getDotFile();
       DotFileModel dotFileModel = dotParser.parse(f);
       Assert.assertNotNull(dotFileModel);
+      dotFileModel.setModuleDir(mm.getRootDir());
       mm.setDotFileModel(dotFileModel);
 
-      Analyzer analyzer = new Analyzer(mModelList);
+
+      Analyzer analyzer = new Analyzer(mModelList, new Depository());
       analyzer.analyze();
 
       Assert.assertEquals(65, dotFileModel.getExtPackages().size());

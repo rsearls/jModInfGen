@@ -10,6 +10,7 @@ import org.jboss.module.info.directives.ProvidesDirective;
 import org.jboss.module.info.directives.RequiresDirective;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class Unification {
       final DotFileModel dFileModel = mModel.getDotFileModel();
 
       processExports(mInfoDecl, dFileModel);
-      processRequires(dFileModel);
+      processRequires(mInfoDecl, dFileModel);
       processProvides(mModel.getServicesModelList());
    }
 
@@ -91,21 +92,31 @@ public class Unification {
       }
    }
 
-   private void processRequires(DotFileModel dFileModel) {
+   private void processRequires(ModuleInfoDeclaration mInfoDecl, DotFileModel dFileModel) {
 
       if (dFileModel != null) {
+
+         Set<String> modInfKeys = (mInfoDecl == null) ? new HashSet() : mInfoDecl.getRequiresMap().keySet();
+
          for (Map.Entry<String, TreeSet<String>> entry : dFileModel.getRequiredModuleNames().entrySet())
          {
             String moduleName = entry.getKey();
-            if (!dFileModel.getModuleName().equals(moduleName))
-            {
-               RequiresDirective eDirective = new RequiresDirective();
-               eDirective.setName(moduleName);
-               if (entry.getValue() != null)
-               {
-                  eDirective.getModuleNameList().addAll(entry.getValue());
-               }
+            if (modInfKeys.contains(moduleName)) {
+               // existing stmt from module-info file takes precedence because it might have a modifier set
+               RequiresDirective eDirective = (RequiresDirective)mInfoDecl.getRequiresMap().get(moduleName);
                requiresMap.put(moduleName, eDirective);
+            } else
+            {
+               if (!dFileModel.getModuleName().equals(moduleName))
+               {
+                  RequiresDirective eDirective = new RequiresDirective();
+                  eDirective.setName(moduleName);
+                  if (entry.getValue() != null)
+                  {
+                     eDirective.getModuleNameList().addAll(entry.getValue());
+                  }
+                  requiresMap.put(moduleName, eDirective);
+               }
             }
          }
          unresolveRequiresPackageNamesList.addAll(dFileModel.getExtPackages());
@@ -178,7 +189,7 @@ public class Unification {
       {
          for (ModuleDirective m : mModel.getModuleInfoModel().getOpensMap().values())
          {
-            sb.append(m.toString());
+            sb.append(m.toString() + "\n");
          }
       }
       return sb.toString();
@@ -190,7 +201,7 @@ public class Unification {
       {
          for (ModuleDirective m : mModel.getModuleInfoModel().getUsesMap().values())
          {
-            sb.append(m.toString());
+            sb.append(m.toString() +"\n");
          }
       }
       return sb.toString();

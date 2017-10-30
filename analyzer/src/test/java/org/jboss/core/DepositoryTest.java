@@ -7,10 +7,8 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by rsearls on 10/30/17.
@@ -18,6 +16,7 @@ import java.util.Set;
 public class DepositoryTest {
 
    private static File propertyFile;
+   private static Depository depository;
 
    private static final String ORG_APACHE_CXF_ANNOTATIONS = "org.apache.cxf.annotations";
    private static final String ORG_APACHE_CXF_BINDING = "org.apache.cxf.binding";
@@ -39,34 +38,35 @@ public class DepositoryTest {
       {
          throw new IllegalArgumentException("File not found: " + propertyFile.getAbsolutePath());
       }
+      depository = new Depository();
    }
 
    @Test
    public void fileLoadTest() throws Exception {
-      Depository.loadFile(propertyFile);
-      String m = Depository.getModuleName(ORG_APACHE_CXF_ANNOTATIONS);
+      depository.loadFile(propertyFile);
+      String m = depository.getModuleName(ORG_APACHE_CXF_ANNOTATIONS);
       Assert.assertEquals(MY_APACHE_CXF, m);
       Assert.assertEquals(MY_APACHE_CXF,
-              Depository.getModuleName(ORG_APACHE_CXF_BINDING));
+              depository.getModuleName(ORG_APACHE_CXF_BINDING));
    }
 
    @Test
    public void registerTest()  throws Exception {
-      Depository.register(ORG_APACHE_CXF_BUS, MY_APACHE_CXF);
+      depository.register(ORG_APACHE_CXF_BUS, MY_APACHE_CXF);
       Assert.assertEquals(MY_APACHE_CXF,
-              Depository.getModuleName(ORG_APACHE_CXF_BUS));
+              depository.getModuleName(ORG_APACHE_CXF_BUS));
 
    }
 
    @Test
    public void duplicatePackageTest()  throws Exception {
-      Depository.register(ORG_APACHE_CXF_BUS, NOT_MY_APACHE_CXF);
-      Assert.assertEquals(1, Depository.getDuplicatePackageList().size());
+      depository.register(ORG_APACHE_CXF_BUS, NOT_MY_APACHE_CXF);
+      Assert.assertEquals(1, depository.getDuplicatePackageList().size());
 
-      Assert.assertTrue(Depository.getDuplicatePackageList().keySet().contains(ORG_APACHE_CXF_BUS));
+      Assert.assertTrue(depository.getDuplicatePackageList().keySet().contains(ORG_APACHE_CXF_BUS));
 
       for (Map.Entry<String, List<String>> entry :
-              Depository.getDuplicatePackageList().entrySet())
+              depository.getDuplicatePackageList().entrySet())
       {
          for (String s : entry.getValue())
          {

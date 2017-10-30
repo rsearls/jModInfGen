@@ -13,8 +13,13 @@ import java.util.TreeSet;
 public class Analyzer
 {
    private List<DotFileModel> dotModelList = new ArrayList<>();
+   private Depository depository;
 
-   public Analyzer( List<ModuleModel> mModelList) {
+   public Analyzer( List<ModuleModel> mModelList, Depository depository) {
+      if (depository == null) {
+         throw new IllegalArgumentException("Depository can not be null");
+      }
+      this.depository = depository;
 
       // create master ref list
       for(ModuleModel mModel: mModelList) {
@@ -46,7 +51,7 @@ public class Analyzer
    private void depositoryRegistation(DotFileModel dFile) {
       String moduleName = dFile.getModuleName();
       for (String pkgName : dFile.getInternalPackages().keySet()) {
-         Depository.register(pkgName, moduleName);
+         depository.register(pkgName, moduleName);
       }
    }
 
@@ -64,7 +69,7 @@ public class Analyzer
 
       // get 3rd party pkgs out of the way
       for (String pkgName: dFile.getExternalPackages().keySet()) {
-         String moduleName = Depository.getModuleName(pkgName);
+         String moduleName = depository.getModuleName(pkgName);
          if (moduleName != null) {
             dFile.registerRequiredModuleName(moduleName, pkgName);
             extPackages.remove(pkgName);

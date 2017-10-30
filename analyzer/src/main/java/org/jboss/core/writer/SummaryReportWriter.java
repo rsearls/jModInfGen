@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public class SummaryReportWriter {
 
+   private Depository depository;
+
    private final String genFilename = "jModInfGen-Summary-Report.txt";
 
    private List<ModuleModel> mModelList = new ArrayList<>();
@@ -25,6 +27,13 @@ public class SummaryReportWriter {
    private List<File> writtenFileList = new ArrayList<>();
    private List<File> servicesFileList = new ArrayList<>();
    private boolean verbose = false;
+
+   public SummaryReportWriter(Depository depository) {
+      if (depository == null) {
+         throw new IllegalArgumentException("Depository can not be null");
+      }
+      this.depository = depository;
+   }
 
    public boolean isVerbose() {
       return verbose;
@@ -197,7 +206,7 @@ public class SummaryReportWriter {
    private String toStringDuplicatePackages() {
 
       StringBuilder sb = new StringBuilder();
-      int cnt = Depository.getDuplicatePackageList().size();
+      int cnt = depository.getDuplicatePackageList().size();
 
       sb.append("  *** Duplicate Package Names ***\n");
 
@@ -205,7 +214,7 @@ public class SummaryReportWriter {
          sb.append("  " + cnt + " duplicate package names found\n");
       } else {
          sb.append("  " + cnt + " duplicate package names found in the following modules.\n");
-         for (Map.Entry<String, List<String>> entry : Depository.getDuplicatePackageList().entrySet())
+         for (Map.Entry<String, List<String>> entry : depository.getDuplicatePackageList().entrySet())
          {
             sb.append("  package: " + entry.getKey() + " in modules\n");
             for (String moduleName : entry.getValue())

@@ -1,51 +1,59 @@
 package org.jboss.core;
 
-import com.beust.jcommander.JCommander;
 import org.jboss.core.model.DotFileModel;
 import org.jboss.core.model.ModuleModel;
 import org.jboss.core.model.ServicesModel;
 import org.jboss.core.parser.DotFileParser;
 import org.jboss.core.parser.ServiceFileParser;
-import org.jboss.core.ui.CmdLineArgs;
 import org.jboss.core.util.Analyzer;
-import org.jboss.core.util.Depository;
 import org.jboss.core.util.FileFinderUtil;
+import org.jboss.core.util.Depository;
 import org.jboss.core.util.Unification;
-import org.jboss.core.writer.ModuleInfoWrite;
-import org.jboss.core.writer.SummaryReportWriter;
 import org.jboss.module.info.directives.ModuleInfoDeclaration;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rsearls on 10/11/17.
+ * Created by rsearls on 10/30/17.
  */
-public class Main
-{
-   public static void main(String[] args) throws Exception {
+public class UnificationTest {
 
-      Depository depository = new Depository();
+   private static final String openStmtControl = "opens org.jboss.wsf.stack.cxf.transport to \n\t\tmy.mod.client,\n\t\tnot.my.mod.client;\nopens org.jboss.wsf.stack.cxf.management;\n";
+   private static final String exportsControl = "exports org.jboss.wsf.stack.cxf to \n\t\tmy.mod.client;";
+   private static final String requiresControl = "requires transitive java.xml;";
+   private static final String usesControl = "uses some.database.driver;\n";
+   private static final String moduleNameControl = "my.mod.service";
+   private static File inDir;
 
-      // check cmd-line args
-      CmdLineArgs cmdLineArgs = new CmdLineArgs();
-      new JCommander( cmdLineArgs, args );
-
-      File inDir = cmdLineArgs.getInputDirectory().toFile();
-
-      // Provide user help
-      if (cmdLineArgs.isHelp()) {
-         System.out.print(cmdLineArgs.toStringHelp());
-         System.exit(1);
+   @BeforeClass
+   static public void beforeClass() {
+      inDir = new File("./src/test/resources/filefinder");
+      if (!inDir.canRead())
+      {
+         throw new IllegalArgumentException("File not found: " + inDir.getAbsolutePath());
       }
+   }
 
-      // load user provided properties file
-      if (cmdLineArgs.getPropertiesFile() != null) {
-         depository.loadFile(cmdLineArgs.getPropertiesFile().toFile());
-      }
+   @Test
+   public void contentsTest() throws Exception {
 
-      // Collect all the files to be analyzed
+      Unification testUnification = setup();
+
+      Assert.assertNotNull(testUnification);
+      Assert.assertTrue(testUnification.getModuleInfoStart().contains(moduleNameControl));
+      Assert.assertEquals(openStmtControl, testUnification.getOpensDeclarations());
+      Assert.assertEquals(usesControl, testUnification.getUsesDeclarations());
+      Assert.assertTrue(testUnification.getExportsDeclarations().contains(exportsControl));
+      Assert.assertTrue(testUnification.getRequiresDeclarations().contains(requiresControl));
+   }
+
+   private Unification setup() {
+
       FileFinderUtil ffUtil = new FileFinderUtil();
       List<File> rawModules = ffUtil.getModuleList(inDir);
       List<ModuleModel> mModelList = new ArrayList<>();
@@ -56,7 +64,6 @@ public class Main
          mm.setDotFile(ffUtil.getDotFile(file));
          mm.setServicesFileList(ffUtil.getServicesList(file));
          mm.setModuleInfoFile(ffUtil.getModuleInfoFile(file));
-         //DumpIt.dumpModel(mm); // debug
       }
 
       DotFileParser dotParser = new DotFileParser();
@@ -86,31 +93,19 @@ public class Main
          }
       }
 
-      Analyzer analyzer = new Analyzer(mModelList, depository);
+      Analyzer analyzer = new Analyzer(mModelList, new Depository());
       analyzer.analyze();
 
-      //Merge data from jdeps report and any existing module-info file.
+      Unification testUnification = null;
       for(ModuleModel mModel: mModelList) {
          Unification unification = new Unification(mModel);
-         unification.setVerbose(cmdLineArgs.isVerbose());
          unification.process();
          mModel.setUnification(unification);
-         //unification.print(); // debug
+         if ("server".equals(mModel.getRootDir().getName())) {
+            testUnification = unification;
+         }
       }
 
-      ModuleInfoWrite writer = new ModuleInfoWrite();
-      for(ModuleModel mModel: mModelList) {
-         //writer.printFile(mModel);
-         writer.writeFile(mModel);
-      }
-
-      SummaryReportWriter sReportWriter = new SummaryReportWriter(depository);
-      sReportWriter.setVerbose(cmdLineArgs.isVerbose());
-      if (cmdLineArgs.isReport()) {
-         sReportWriter.write(mModelList);
-      } else {
-         sReportWriter.print(mModelList);
-      }
+      return testUnification;
    }
-
 }

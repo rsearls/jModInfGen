@@ -50,7 +50,15 @@ public class RequiresDirective extends ModuleDirective {
    }
 
    public String toString() {
-      return "requires " + modifier + " " + getName() + ";";
+      StringBuilder sb = new StringBuilder();
+      sb.append("requires ");
+
+      if (!modifier.isEmpty()) {
+         sb.append(modifier + " ");
+      }
+
+      sb.append(getName() + ";");
+      return sb.toString();
    }
 
 

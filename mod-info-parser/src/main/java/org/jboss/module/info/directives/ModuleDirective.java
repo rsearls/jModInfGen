@@ -1,8 +1,8 @@
 package org.jboss.module.info.directives;
 
 import java_cup.runtime.Symbol;
+
 import java.util.List;
-import org.jboss.parser.rules.sym;
 
 /**
  * Created by rsearls on 6/12/17.

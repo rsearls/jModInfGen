@@ -7,14 +7,12 @@ import org.jboss.module.info.directives.OpensDirective;
 import org.jboss.module.info.directives.ProvidesDirective;
 import org.jboss.module.info.directives.RequiresDirective;
 import org.jboss.module.info.directives.UsesDirective;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +29,8 @@ public class DirectivesTest {
 
    private static List<String> requiresControl = new ArrayList<>();
    static {
-      requiresControl.add("requires  two.org.my.test.pkg;");
-      requiresControl.add("requires  three.org.my.test.pkg;");
+      requiresControl.add("requires two.org.my.test.pkg;");
+      requiresControl.add("requires three.org.my.test.pkg;");
       requiresControl.add("requires transitive six.org.my.test.pkg;");
       requiresControl.add("requires static seven.org.my.test.pkg;");
    };

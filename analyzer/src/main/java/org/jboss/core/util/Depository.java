@@ -1,10 +1,9 @@
 package org.jboss.core.util;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,11 +16,11 @@ import java.util.Set;
  */
 public class Depository {
 
-   private static HashMap<String, List<String>> duplicatePackageList = new HashMap<>();
-   private static HashMap<String, String> pkgModuleMapping = new HashMap<String, String>();
+   private HashMap<String, List<String>> duplicatePackageList = new HashMap<>();
+   private HashMap<String, String> pkgModuleMapping = new HashMap<String, String>();
 
-   static
-   {
+   public Depository() {
+
       try
       {
          // initial information is packages and module mappings of JDK
@@ -41,9 +40,9 @@ public class Depository {
       {
          System.out.println(ioe);
       }
-   }
 
-   public static void loadFile(File file) {
+   }
+   public void loadFile(File file) {
       try
       {
          Properties properties = new Properties();
@@ -55,7 +54,6 @@ public class Depository {
          for (String k : keys)
          {
             pkgModuleMapping.put(k, properties.getProperty(k));
-            //System.out.format("prop: %s    %s  \n", k, properties.getProperty(k));
          }
       } catch (IOException ioe)
       {
@@ -63,7 +61,7 @@ public class Depository {
       }
    }
 
-   public static String getModuleName(String pkg) {
+   public String getModuleName(String pkg) {
       return pkgModuleMapping.get(pkg);
    }
 
@@ -71,7 +69,7 @@ public class Depository {
     * @param pkgName
     * @param moduleName
     */
-   public static void register(String pkgName, String moduleName) {
+   public void register(String pkgName, String moduleName) {
 
       String value = pkgModuleMapping.get(pkgName);
       if (value == null)
@@ -90,7 +88,7 @@ public class Depository {
       }
    }
 
-   public static HashMap<String, List<String>> getDuplicatePackageList() {
+   public HashMap<String, List<String>> getDuplicatePackageList() {
       return duplicatePackageList;
    }
 }
