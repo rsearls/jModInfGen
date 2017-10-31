@@ -2,7 +2,7 @@
 Tool for generating a module-info file from existing java sources.
 
 
-Version 1.0.0.SNAPSHOT  <date>
+Version 1.0.0.Final  Nov 15, 2017
 
 * [Overview](#overview)
 * [Dependencies](#dependencies)
@@ -219,7 +219,7 @@ but for which jModInfGen does not have a module-name.
 An executable jar is provided so that jModInfGen can be run from the command-line.
 Input options can be see via the `--help` option.
 ```
-java -jar analyzer-1.0.0-SNAPSHOT.one-jar.jar --help
+java -jar analyzer-1.0.0-Final.one-jar.jar --help
 
 jModInfoGen command-line options
   -d --inputDirectory   Path to the directory from which to start analysis.
