@@ -18,6 +18,9 @@ import org.jboss.module.info.directives.ModuleInfoDeclaration;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by rsearls on 10/11/17.
@@ -45,45 +48,20 @@ public class Main
          depository.loadFile(cmdLineArgs.getPropertiesFile().toFile());
       }
 
-      // Collect all the files to be analyzed
+
+      ExecutorService pool = Executors.newCachedThreadPool();
+      List<Future<ModuleModel>> mmFutureList = new ArrayList<>();
+
       FileFinderUtil ffUtil = new FileFinderUtil();
       List<File> rawModules = ffUtil.getModuleList(inDir);
-      List<ModuleModel> mModelList = new ArrayList<>();
       for(File file : rawModules) {
-         ModuleModel mm = new ModuleModel();
-         mModelList.add(mm);
-         mm.setRootDir(file);
-         mm.setDotFile(ffUtil.getDotFile(file));
-         mm.setServicesFileList(ffUtil.getServicesList(file));
-         mm.setModuleInfoFile(ffUtil.getModuleInfoFile(file));
-         //DumpIt.dumpModel(mm); // debug
+         ModuleWorker mWorker = new ModuleWorker(file);
+         mmFutureList.add(pool.submit(mWorker));
       }
 
-      DotFileParser dotParser = new DotFileParser();
-      ServiceFileParser serviceFileParser = new ServiceFileParser();
-
-      for (ModuleModel mm : mModelList) {
-         File f = mm.getDotFile();
-         DotFileModel dotFileModel = dotParser.parse(f);
-         if (dotFileModel != null) {
-            dotFileModel.setModuleDir(mm.getRootDir());
-         }
-         mm.setDotFileModel(dotFileModel);
-
-         for(File sFile : mm.getServicesFileList()) {
-            ServicesModel sModel = serviceFileParser.parse(sFile);
-            mm.getServicesModelList().add(sModel);
-         }
-
-         if (mm.getModuleInfoFile() != null) {
-            ModuleInfoDeclaration mInfoDecl = new ModuleInfoDeclaration();
-            mInfoDecl.parse(mm.getModuleInfoFile());
-            mm.setModuleInfoModel(mInfoDecl);
-
-            if (dotFileModel != null) {
-               dotFileModel.setModuleName(mInfoDecl.getName());
-            }
-         }
+      List<ModuleModel> mModelList = new ArrayList<>();
+      for (Future<ModuleModel> fmm : mmFutureList) {
+         mModelList.add(fmm.get());
       }
 
       Analyzer analyzer = new Analyzer(mModelList, depository);
