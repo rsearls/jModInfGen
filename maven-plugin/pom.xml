@@ -25,7 +25,7 @@ under the License.
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jModInfGen-aggregator</artifactId>
-        <version>1.0.0-Final</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
