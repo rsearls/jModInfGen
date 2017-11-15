@@ -4,15 +4,25 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-        <groupId>org.jboss</groupId>
+        <groupId>org.jboss.jmodinfgen</groupId>
         <artifactId>jModInfGen-aggregator</artifactId>
         <version>1.0.0-Final</version>
     <packaging>pom</packaging>
     <name>jModInfGen Aggregator</name>
 
-    <url>https://github.com/rsearls/jModInfGen.git </url>
+    <scm>
+        <url>https://github.com/rsearls/jModInfGen.git </url>
+    </scm>
+
     <description>JDK 9 Module generator tool</description>
     <inceptionYear>2017</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License v2.1 only</name>
+            <url>http://repository.jboss.org/licenses/lgpl-2.1.txt</url>
+        </license>
+    </licenses>
 
    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

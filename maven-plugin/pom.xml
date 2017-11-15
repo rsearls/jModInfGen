@@ -23,7 +23,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss</groupId>
+        <groupId>org.jboss.jmodinfgen</groupId>
         <artifactId>jModInfGen-aggregator</artifactId>
         <version>1.0.0-Final</version>
         <relativePath>../pom.xml</relativePath>
@@ -82,12 +82,12 @@ under the License.
         </dependency>
 
         <dependency>
-            <groupId>org.jboss</groupId>
+            <groupId>org.jboss.jmodinfgen</groupId>
             <artifactId>analyzer</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss</groupId>
+            <groupId>org.jboss.jmodinfgen</groupId>
             <artifactId>mod-info-parser</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -101,5 +101,35 @@ under the License.
         </dependency>
     </dependencies>
 
-
+    <build>
+        <plugins>
+            <!-- artifacts for release to maven central -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

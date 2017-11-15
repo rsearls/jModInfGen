@@ -12,7 +12,7 @@
   <target name="build" depends="clean,compile,addLibs" />
 
   <target name="test" depends="build">
-    <java classname="org.jboss.module.info.Main"
+    <java classname="org.jboss.jmodinfgen.module.info.Main"
           classpath=".:${outputDir}"
           classpathref="libraries">
       <arg line="${basedir}/src/main/resources/ModuleStmtTest.txt"/>
@@ -33,7 +33,7 @@
 
   <target name="compile" depends="generateSources">
     <mkdir dir="${outputDir}"/>
-    <javac srcdir="${sourceDir}/org/jboss/module/info/util"
+    <javac srcdir="${sourceDir}/org/jboss/jmodinfgen/module/info/util"
            destdir="${outputDir}"
            classpathref="libraries"
            debug="true"
@@ -45,13 +45,13 @@
            debug="true"
            includeantruntime="false"
            fork="yes"/>
-    <javac srcdir="${sourceDir}/org/jboss/module/info/directives"
+    <javac srcdir="${sourceDir}/org/jboss/jmodinfgen/module/info/directives"
            destdir="${outputDir}"
            classpathref="libraries"
            debug="true"
            includeantruntime="false"
            fork="yes"/>
-    <javac srcdir="${sourceDir}/org/jboss/module/info"
+    <javac srcdir="${sourceDir}/org/jboss/jmodinfgen/module/info"
            destdir="${outputDir}"
            classpathref="libraries"
            debug="true"
@@ -62,7 +62,7 @@
   <!-- limited build for use with maven -->
   <target name="generateSym" depends="generateSources">
     <mkdir dir="${outputDir}"/>
-    <javac srcdir="${sourceDir}/org/jboss/module/info/util"
+    <javac srcdir="${sourceDir}/org/jboss/jmodinfgen/module/info/util"
            destdir="${outputDir}"
            classpathref="libraries"
            debug="true"
@@ -79,13 +79,13 @@
   <target name="generateSources" depends="scanner,cup"/>
   <target name="scanner">
     <mkdir dir="${generatedSourcesDir}" />
-    <jflex file="${sourceDir}/org/jboss/parser/rules/java.flex"
+    <jflex file="${sourceDir}/org/jboss/jmodinfgen/parser/rules/java.flex"
            outdir="${generatedSourcesDir}"/>
   </target>
 
   <target name="cup">
     <mkdir dir="${generatedSourcesDir}" />
-    <cup srcfile="${sourceDir}/org/jboss/parser/rules/java12.cup" interface="yes"
+    <cup srcfile="${sourceDir}/org/jboss/jmodinfgen/parser/rules/java12.cup" interface="yes"
          destdir="${generatedSourcesDir}"/>
   </target>
 
