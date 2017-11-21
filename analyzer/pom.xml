@@ -4,7 +4,7 @@
    <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss</groupId>
+        <groupId>org.jboss.jmodinfgen</groupId>
         <artifactId>jModInfGen-aggregator</artifactId>
         <version>1.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -25,7 +25,7 @@
          <artifactId>jcommander</artifactId>
       </dependency>
       <dependency>
-         <groupId>org.jboss</groupId>
+         <groupId>org.jboss.jmodinfgen</groupId>
          <artifactId>mod-info-parser</artifactId>
          <version>${project.version}</version>
       </dependency>
@@ -35,7 +35,7 @@
 
       <resources>
          <resource>
-            <directory>src/main/java/org/jboss/core</directory>
+            <directory>src/main/java/org/jboss/jmodinfgen/core</directory>
             <includes>
                <include>DepositoryData.properties</include>
             </includes>
@@ -58,12 +58,40 @@
             <executions>
                <execution>
                   <configuration>
-                     <mainClass>org.jboss.core.Main</mainClass>
+                     <mainClass>org.jboss.jmodinfgen.core.Main</mainClass>
                      <onejarVersion>0.97</onejarVersion>
                      <attachToBuild>true</attachToBuild>
                   </configuration>
                   <goals>
                      <goal>one-jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+
+         <!-- artifacts for release to maven central -->
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.2.1</version>
+            <executions>
+               <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                     <goal>jar-no-fork</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.9.1</version>
+            <executions>
+               <execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                     <goal>jar</goal>
                   </goals>
                </execution>
             </executions>

@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-        <groupId>org.jboss</groupId>
+        <groupId>org.jboss.jmodinfgen</groupId>
         <artifactId>jModInfGen-aggregator</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>

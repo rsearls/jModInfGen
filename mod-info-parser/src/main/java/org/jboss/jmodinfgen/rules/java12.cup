@@ -1,0 +1,120 @@
+package org.jboss.jmodinfgen.rules;
+import java_cup.runtime.*;
+
+parser code  {: 
+  public void report_error(String message, Object info) {
+    StringBuilder m = new StringBuilder("Error ");
+
+    if (info instanceof java_cup.runtime.Symbol) 
+      m.append( "("+info.toString()+")" );
+     
+    m.append(" : "+message);
+   
+    System.out.println(m);
+  }
+   
+  public void report_fatal_error(String message, Object info) {
+    report_error(message, info);
+    throw new RuntimeException("Fatal Syntax Error");
+  }
+:};
+
+terminal MODULE, EXPORTS, REQUIRES, OPENS, USES, PROVIDES;
+terminal TO, WITH, TRANSITIVE;
+terminal DOT; // qualified_name
+terminal SEMICOLON, COMMA, LBRACE, RBRACE;
+terminal STATIC; // modifier
+terminal java.lang.Character CHARACTER_LITERAL;
+terminal java.lang.String STRING_LITERAL;
+
+terminal java.lang.String IDENTIFIER; // name
+
+non terminal opens_declaration, uses_declaration;
+non terminal exports_declaration, package_list;
+non terminal requires_declaration, provides_declaration;
+non terminal module_declaration, module_body;
+non terminal module_body_declarations, module_body_declaration;
+non terminal requires_modifier;
+
+// 19.2) The Syntactic Grammar
+non terminal goal;
+
+// 19.5) Names
+non terminal name, simple_name, qualified_name;
+
+// 19.6) Packages
+non terminal compilation_unit;
+
+start with goal;
+
+// 19.2) The Syntactic Grammar
+goal ::=	compilation_unit
+	;
+
+// 19.5) Names
+name	::=	simple_name
+	|	qualified_name
+	;
+simple_name ::=	IDENTIFIER
+	;
+qualified_name ::=
+		name DOT IDENTIFIER
+	;
+
+// 19.6) Packages
+
+compilation_unit ::=
+		module_declaration
+		;
+
+exports_declaration ::=
+		EXPORTS name SEMICOLON
+	|   EXPORTS name TO package_list SEMICOLON
+	;
+
+package_list ::=
+    name
+  | package_list COMMA name
+  ;
+
+requires_declaration ::=
+		REQUIRES requires_modifier name SEMICOLON
+	;
+
+opens_declaration ::=
+		OPENS name SEMICOLON
+	|   OPENS name TO package_list SEMICOLON
+	;
+
+uses_declaration ::=
+		USES name SEMICOLON
+	;
+
+provides_declaration ::=
+	    PROVIDES name WITH package_list SEMICOLON
+	;
+
+requires_modifier ::=
+    TRANSITIVE
+  | STATIC
+  |
+  ;
+
+module_declaration ::= MODULE name module_body
+  ;
+
+module_body ::= LBRACE module_body_declarations RBRACE
+  ;
+
+module_body_declarations ::=
+		module_body_declaration
+	|	module_body_declarations module_body_declaration
+	;
+
+module_body_declaration ::=
+		exports_declaration
+	|	requires_declaration
+	|   opens_declaration
+	|   uses_declaration
+	|   provides_declaration
+	;
