@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jboss.jmodinfgen</groupId>
+        <artifactId>jModInfGen-aggregator</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+   <artifactId>qdox-util</artifactId>
+   <packaging>jar</packaging>
+   <name>qdox-util</name>
+
+   <properties>
+      <maven.compiler.source>1.8</maven.compiler.source>
+      <maven.compiler.target>1.8</maven.compiler.target>
+   </properties>
+
+   <dependencies>
+      <!--
+      <dependency>
+         <groupId>com.beust</groupId>
+         <artifactId>jcommander</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.jmodinfgen</groupId>
+         <artifactId>mod-info-parser</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+      -->
+      <dependency>
+         <groupId>com.thoughtworks.qdox</groupId>
+         <artifactId>qdox</artifactId>
+         <version>2.0-SNAPSHOT</version> <!-- 1.12.1 -->
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.jmodinfgen</groupId>
+         <artifactId>analyzer</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+   </dependencies>
+
+   <build>
+
+      <resources>
+         <resource>
+            <directory>src/main/java/org/jboss/jmodinfgen/qdox</directory>
+            <!--
+            <includes>
+               <include>DepositoryData.properties</include>
+            </includes>
+            -->
+         </resource>
+      </resources>
+
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+         </plugin>
+         <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.4</version>
+         </plugin>
+         <plugin>
+            <groupId>com.jolira</groupId>
+            <artifactId>onejar-maven-plugin</artifactId>
+            <version>1.4.4</version>
+            <executions>
+               <execution>
+                  <configuration>
+                     <mainClass>org.jboss.jmodinfgen.qdox.ImportsMain</mainClass>
+                     <onejarVersion>0.97</onejarVersion>
+                     <attachToBuild>true</attachToBuild>
+                  </configuration>
+                  <goals>
+                     <goal>one-jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+
+         <!-- artifacts for release to maven central -->
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.2.1</version>
+            <executions>
+               <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                     <goal>jar-no-fork</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.9.1</version>
+            <executions>
+               <execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+</project>
