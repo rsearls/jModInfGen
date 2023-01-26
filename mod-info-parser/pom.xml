@@ -24,6 +24,8 @@
          <groupId>org.unknown</groupId>
          <artifactId>java-cup</artifactId>
          <version>11a</version>
+         <scope>system</scope>
+         <systemPath>${project.basedir}/lib/java-cup-11a.jar</systemPath>
       </dependency>
       <dependency>
          <groupId>com.beust</groupId>
@@ -41,7 +43,7 @@
             <!-- ant is required in order to build the jflex rules -->
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
-            <version>1.8</version>
+            <version>3.1.0</version>
             <executions>
                <execution>
                   <id>generate-sources</id>
@@ -62,10 +64,11 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.10.1</version>
          </plugin>
          <plugin>
             <artifactId>maven-jar-plugin</artifactId>
-            <version>2.4</version>
+            <version>3.3.0</version>
             <configuration>
                <archive>
                   <manifest>
@@ -99,7 +102,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>2.4.1</version>
+            <version>3.4.2</version>
             <configuration>
                <!-- get all project dependencies -->
                <descriptorRefs>
@@ -124,7 +127,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-install-plugin</artifactId>
-            <version>2.5.2</version>
+            <version>3.1.0</version>
             <executions>
                <execution>
                   <id>install-artifact</id>
@@ -149,7 +152,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>2.2.1</version>
+            <version>3.2.1</version>
             <executions>
                <execution>
                   <id>attach-sources</id>
@@ -162,7 +165,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.9.1</version>
+            <version>3.4.1</version>
             <executions>
                <execution>
                   <id>attach-javadocs</id>
