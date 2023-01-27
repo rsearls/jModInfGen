@@ -5,6 +5,7 @@ Tool for generating a module-info file from existing java sources.
 Version 1.0.0.Final  Nov 15, 2017
 
 * [Overview](#overview)
+* [Build](#build)
 * [Dependencies](#dependencies)
 * [Limitations](#limitations)
 * [Usage](#usage)
@@ -25,7 +26,8 @@ module-info.java file for your code.  This tool uses the output from the JDK's
 "Java [static] class dependency analyzer", jdeps[1] utility and any existing
 module-info file in the project to generate a module-info.java file.
 
-This tool does not require JDK 9 in order to run.  It is built and runs with JDK 8.
+## Build
+This tool must be built using JDK 8.
 
 ## Dependencies
 jModInfGen requires the presents of classes.dot file(s) that jdeps generates.  jdeps
