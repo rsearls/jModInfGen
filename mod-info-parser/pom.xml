@@ -24,8 +24,6 @@
          <groupId>org.unknown</groupId>
          <artifactId>java-cup</artifactId>
          <version>11a</version>
-         <scope>system</scope>
-         <systemPath>${project.basedir}/lib/java-cup-11a.jar</systemPath>
       </dependency>
       <dependency>
          <groupId>com.beust</groupId>
